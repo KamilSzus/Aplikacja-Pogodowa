@@ -22,11 +22,11 @@ public class MainActivity extends AppCompatActivity {
         addCity=findViewById(R.id.AddCity);
         options=findViewById(R.id.Options);
 
-        addCity.setOnClickListener(v -> System.out.println("dodawanie miasta"));
-        options.setOnClickListener(v -> System.out.println("opcje"));
+        addCity.setOnClickListener(v -> replaceFragment(new DayFragment()));
+        options.setOnClickListener(v -> replaceFragment(new HoursFragment()));
 
 
-        replaceFragment(new DayFragment());
+        ;
     }
 
 
