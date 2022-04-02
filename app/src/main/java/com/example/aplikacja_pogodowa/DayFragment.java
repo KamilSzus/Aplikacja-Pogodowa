@@ -1,5 +1,7 @@
 package com.example.aplikacja_pogodowa;
 
+import static android.view.View.*;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -15,6 +17,7 @@ public class DayFragment extends Fragment {
 
     private GestureDetector mDetector;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class DayFragment extends Fragment {
                return result;
            }
        });
+
        view.setOnTouchListener(touchListener);
 
         return view;
