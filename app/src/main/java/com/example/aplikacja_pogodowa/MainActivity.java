@@ -1,6 +1,7 @@
 package com.example.aplikacja_pogodowa;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,10 +14,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     Button addCity,options;
-
+    private final long oneHour = 3600000;
     private final int  INTERNET = 3;
 
     @Override
@@ -24,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addCity=findViewById(R.id.AddCity);
-        options=findViewById(R.id.Options);
+        addCity = findViewById(R.id.AddCity);
+        options = findViewById(R.id.Options);
 
-        checkPermission(Manifest.permission.INTERNET,INTERNET);
+        checkPermission(Manifest.permission.INTERNET, INTERNET);
 
         addCity.setOnClickListener(v -> replaceFragment(new DayFragment()));
         options.setOnClickListener(v -> {
@@ -37,11 +45,46 @@ public class MainActivity extends AppCompatActivity {
 
         replaceFragment(new DayFragment());
 
-        DownloadFile downloadFile = new DownloadFile(getApplicationContext());
-
-        downloadFile.start("Łódź");
+        Bundle jsonBundle = new Bundle();
+        String result = readFile(getApplicationContext());
+        if (result != null) {
+            jsonBundle.putString("JsonWeather", result);
+            getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
+        }
 
     }
+
+    private String readFile(Context context) {
+        try {
+            File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
+            if (file.exists()) {
+                Date lastModDate = new Date(file.lastModified());
+                if (lastModDate.getTime() + oneHour < System.currentTimeMillis()) {
+
+                    FileInputStream fileInputStream = context.openFileInput("Weather.Json");
+
+                    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    bufferedReader.lines().forEach(stringBuilder::append);
+
+                    return stringBuilder.toString();
+                }
+            }
+        } catch (IOException fileNotFound) {
+            createFile();
+            return null;
+        }
+        createFile();
+        return null;
+    }
+
+    private void createFile() {
+        DownloadFile downloadFile = new DownloadFile(getApplicationContext());
+        downloadFile.start("Łódź");
+    }
+
     public void checkPermission(String permission, int requestCode)
     {
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {

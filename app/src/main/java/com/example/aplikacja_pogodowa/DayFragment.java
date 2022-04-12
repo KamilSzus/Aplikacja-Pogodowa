@@ -1,7 +1,5 @@
 package com.example.aplikacja_pogodowa;
 
-import static android.view.View.*;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -53,11 +51,13 @@ public class DayFragment extends Fragment {
                return result;
            }
        });
-
        view.setOnTouchListener(touchListener);
+
+        //JSONObject jsonObj = new JSONObject(getIntent().getStringExtra("product"));
 
         return view;
     }
+
     View.OnTouchListener touchListener = new View.OnTouchListener() {
         @SuppressLint("ClickableViewAccessibility")
         @Override
