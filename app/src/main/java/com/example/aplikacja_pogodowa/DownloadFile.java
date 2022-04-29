@@ -2,6 +2,9 @@ package com.example.aplikacja_pogodowa;
 
 
 import android.content.Context;
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,7 +19,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class DownloadFile implements Runnable {
+public class DownloadFile extends AppCompatActivity implements Runnable  {
     private String url;
     private Context context;
 
@@ -43,6 +46,10 @@ public class DownloadFile implements Runnable {
                   JSONObject jsonResponse = new JSONObject(response);
                   System.out.println(jsonResponse);
                   SaveFile(jsonResponse);
+
+                  Bundle jsonBundle = new Bundle();
+                  jsonBundle.putString("JsonWeather", jsonResponse.toString());
+                  getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
 
               } catch (JSONException | IOException e) {
                   e.printStackTrace();

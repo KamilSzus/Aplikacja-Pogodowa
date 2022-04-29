@@ -9,12 +9,14 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/WeatherIcon"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="TODO"
-        tools:src="@tools:sample/avatars" />
+        android:layout_height="400dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/WeatherIcon"
+        tools:src="@drawable/finding" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,9 +30,22 @@
             android:id="@+id/Temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
+            android:layout_toEndOf="@+id/TemperatureInfo"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/TemperatureInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="TextView" />
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
+            android:text="@string/weather_temperature" />
     </RelativeLayout>
 
 </RelativeLayout>

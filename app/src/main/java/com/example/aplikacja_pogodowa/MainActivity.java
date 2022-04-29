@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        replaceFragment(new DayFragment());
-
         Bundle jsonBundle = new Bundle();
         String result = readFile(getApplicationContext());
         if (result != null) {
             jsonBundle.putString("JsonWeather", result);
             getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
         }
+
+        replaceFragment(new DayFragment());
 
     }
 
@@ -96,9 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode,
                 permissions,
                 grantResults);
