@@ -42,7 +42,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/Temperature2"
+                    android:id="@+id/TemperatureData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

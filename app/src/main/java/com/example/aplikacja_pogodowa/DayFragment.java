@@ -51,7 +51,7 @@ public class DayFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("JsonWeather", this, (requestKey, result) -> {
             try {
                 jsonObj = new JSONObject(result.getString("JsonWeather"));
-                TextView textView = view.findViewById(R.id.Temperature);
+                TextView textView = view.findViewById(R.id.TemperatureData);
                 textView.setText(String.valueOf(jsonObj.getJSONObject("main").getDouble("temp")));
 
             } catch (JSONException e) {
