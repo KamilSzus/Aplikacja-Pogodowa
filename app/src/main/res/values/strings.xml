@@ -19,4 +19,10 @@
     <string name="WeatherIcon">WeatherIcon</string>
     <string name="weather_temperature">Weather Temperature:</string>
     <string name="more_details_about_day">More details about day</string>
+    <string name="back">back</string>
+    <string name="temperatura">Temperatura</string>
+    <string name="szeroko_geograficzna">Szerokość geograficzna</string>
+    <string name="wysoko_geograficzna">Wysokość geograficzna</string>
+    <string name="wysoko">Wysokość</string>
+    <string name="szerokosc">Szerokosc</string>
 </resources>

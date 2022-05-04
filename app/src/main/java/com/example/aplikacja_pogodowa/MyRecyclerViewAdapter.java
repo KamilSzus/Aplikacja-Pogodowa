@@ -22,14 +22,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hours_row, parent, false);
         view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int height = view.getMeasuredHeight();
         return new ViewHolder(view, height);
     }
 
-    // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.myTextViewHours.setText(mData.get(position));
@@ -37,7 +35,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.imageView.setImageResource(R.drawable.temp);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return mData.size();
@@ -48,7 +45,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return R.layout.hours_row;
     }
 
-    // stores and recycles views as they are scrolled off screen
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         TextView myTextViewTemperature;
         TextView myTextViewHours;

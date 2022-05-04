@@ -24,17 +24,18 @@ public class HoursFragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_hours, container, false);
         gesture(view);
 
-        ArrayList<String> animalNames = new ArrayList<>();
-        animalNames.add("30");
-        animalNames.add("31");
-        animalNames.add("32");
-        animalNames.add("33");
-        animalNames.add("34");
+        ArrayList<String> temperature = new ArrayList<>();
+        ArrayList<String> day = new ArrayList<>();
+        temperature.add("30");
+        temperature.add("31");
+        temperature.add("32");
+        temperature.add("33");
+        temperature.add("34");
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViews);
         //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new MyRecyclerViewAdapter(animalNames));
+        recyclerView.setAdapter(new MyRecyclerViewAdapter(temperature));
 
         return view;
     }

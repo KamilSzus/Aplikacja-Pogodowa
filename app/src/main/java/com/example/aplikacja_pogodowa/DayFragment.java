@@ -1,7 +1,6 @@
 package com.example.aplikacja_pogodowa;
 
 import android.annotation.SuppressLint;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -9,8 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -21,16 +19,17 @@ import com.android.volley.toolbox.NetworkImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DayFragment extends Fragment {
 
+
     private GestureDetector mDetector;
     NetworkImageView  weatherIcon;
     ImageLoader imageLoader;
     JSONObject jsonObj;
+    Button buttonMoreDetails;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -38,6 +37,15 @@ public class DayFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         weatherIcon = view.findViewById(R.id.WeatherIcon);
+        buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
+
+        buttonMoreDetails.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.test,new MoreDetailsAboutDay())
+                    .commit();
+        });
 
         gesture(view);
         getParentFragmentManager().setFragmentResultListener("JsonWeather", this, (requestKey, result) -> {

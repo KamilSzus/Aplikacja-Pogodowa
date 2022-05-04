@@ -55,27 +55,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String readFile(Context context) {
-        try {
-            File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
-            if (file.exists()) {
-                Date lastModDate = new Date(file.lastModified());
-                if (lastModDate.getTime() + oneHour < System.currentTimeMillis()) {
-
-                    FileInputStream fileInputStream = context.openFileInput("Weather.Json");
-
-                    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    bufferedReader.lines().forEach(stringBuilder::append);
-
-                    return stringBuilder.toString();
-                }
-            }
-        } catch (IOException fileNotFound) {
-            createFile();
-            return null;
-        }
+      //  try {
+      //      File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
+      //      if (file.exists()) {
+      //          Date lastModDate = new Date(file.lastModified());
+      //          if (lastModDate.getTime() + oneHour < System.currentTimeMillis()) {
+//
+      //              FileInputStream fileInputStream = context.openFileInput("Weather.Json");
+//
+      //              InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+      //              BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+      //              StringBuilder stringBuilder = new StringBuilder();
+//
+      //              bufferedReader.lines().forEach(stringBuilder::append);
+//
+      //              return stringBuilder.toString();
+      //          }
+      //      }
+      //  } catch (IOException fileNotFound) {
+      //      createFile();
+      //      return null;
+      //  }
+      //  createFile();
+      //  return null;
         createFile();
         return null;
     }

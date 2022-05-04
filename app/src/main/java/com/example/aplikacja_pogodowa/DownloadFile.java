@@ -25,7 +25,7 @@ import java.util.List;
 
 public class DownloadFile extends AppCompatActivity implements Runnable  {
     private String url;
-    private Context context;
+    private final Context context;
 
     //obecna pogoda
     //na 5 dni
@@ -50,7 +50,6 @@ public class DownloadFile extends AppCompatActivity implements Runnable  {
                   JSONObject jsonResponse = new JSONObject(response);
                   System.out.println(jsonResponse);
                   SaveFile(jsonResponse);
-
                   Bundle jsonBundle = new Bundle();
                   jsonBundle.putString("JsonWeather", jsonResponse.toString());
                   getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
@@ -75,7 +74,7 @@ public class DownloadFile extends AppCompatActivity implements Runnable  {
       }
     public GeoPoint getLocationFromAddress(String strAddress) {
 
-        Geocoder coder = new Geocoder(this);
+        Geocoder coder = new Geocoder(context);
         List<Address> address;
         GeoPoint p1 = null;
 
@@ -88,16 +87,19 @@ public class DownloadFile extends AppCompatActivity implements Runnable  {
             location.getLatitude();
             location.getLongitude();
 
-            p1 = new GeoPoint(location.getLatitude() * 1E6,
-                    location.getLongitude() * 1E6);
+            p1 = new GeoPoint((double) (location.getLatitude()),
+                    (double)location.getLongitude());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return p1;
     }
+
     public void start(String city) {
-        url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=ef6c28ac0f2520bf3fbcca2039cb8799";
+        GeoPoint coder = getLocationFromAddress(city);
+        url = "https://api.openweathermap.org/data/2.5/onecall?lat="+coder.getLatitude()+"&lon="+coder.getLongitude()+"&lang=pl&exclude=minutely&appid=ef6c28ac0f2520bf3fbcca2039cb8799";
+      //  url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=ef6c28ac0f2520bf3fbcca2039cb8799";
         jsonFile = new File(context.getFilesDir(),FILE_NAME);
         Thread thread = new Thread(this);
         thread.start();
