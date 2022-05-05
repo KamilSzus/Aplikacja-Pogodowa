@@ -40,4 +40,5 @@
                     android:contentDescription="@string/WeatherIcon"
                     tools:src="@drawable/temp" />
         </LinearLayout>
+
 </androidx.cardview.widget.CardView>
