@@ -29,7 +29,7 @@ public class MoreDetailsAboutDay extends Fragment {
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.test,new DayFragment())
+                    .replace(R.id.mainLayout,new DayFragment())
                     .commit();
         });
 

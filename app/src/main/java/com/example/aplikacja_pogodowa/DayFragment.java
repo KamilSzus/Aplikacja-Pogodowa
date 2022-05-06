@@ -16,20 +16,14 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DayFragment extends Fragment {
 
-
     private GestureDetector mDetector;
     NetworkImageView  weatherIcon;
     ImageLoader imageLoader;
-    JSONObject jsonObj;
-    Button buttonMoreDetails;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -37,26 +31,25 @@ public class DayFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         weatherIcon = view.findViewById(R.id.WeatherIcon);
-        buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
+        Button buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
 
         buttonMoreDetails.setOnClickListener(v -> {
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.test,new MoreDetailsAboutDay())
+                    .replace(R.id.mainLayout,new MoreDetailsAboutDay())
                     .commit();
         });
 
         gesture(view);
-        getParentFragmentManager().setFragmentResultListener("JsonWeather", this, (requestKey, result) -> {
-            try {
-                jsonObj = new JSONObject(result.getString("JsonWeather"));
-                TextView textView = view.findViewById(R.id.TemperatureData);
-                textView.setText(String.valueOf(jsonObj.getJSONObject("main").getDouble("temp")));
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        getParentFragmentManager().setFragmentResultListener("WeatherData", this, (requestKey, result) -> {
+            WeatherData weatherData = (WeatherData) result.getSerializable("WeatherData");
+            TextView temperatureData = view.findViewById(R.id.TemperatureData);
+            temperatureData.setText(weatherData.getTemperature());
+            TextView latData = view.findViewById(R.id.LatitudeData);
+            latData.setText(weatherData.getLatitude());
+            TextView lonData = view.findViewById(R.id.LongitudeData);
+            lonData.setText(weatherData.getLongitude());
         });
 
         URL u = null;
@@ -94,7 +87,7 @@ public class DayFragment extends Fragment {
                             requireActivity()
                                     .getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.test,new HoursFragment())
+                                    .replace(R.id.mainLayout,new FiveDaysFragment())
                                     .commit();
                             result = true;
                         }

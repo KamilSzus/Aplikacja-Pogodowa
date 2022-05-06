@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class HoursFragment extends Fragment  {
+public class FiveDaysFragment extends Fragment  {
 
     private GestureDetector mDetector;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_hours, container, false);
+        View view = inflater.inflate(R.layout.fragment_five_days, container, false);
         gesture(view);
 
         ArrayList<String> temperature = new ArrayList<>();
@@ -34,16 +33,13 @@ public class HoursFragment extends Fragment  {
         temperature.add("34");
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViews);
-        //recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new MyRecyclerViewAdapter(temperature, (v) -> {
-            System.out.println("ALAAAAAA");
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.test, new DayFragment())
-                    .commit();
-        }
+        recyclerView.setAdapter(new MyRecyclerViewAdapter(temperature, (v) -> requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.mainLayout, new DayFragment())
+                .commit()
         ));
 
         return view;
@@ -70,7 +66,7 @@ public class HoursFragment extends Fragment  {
                             requireActivity()
                                     .getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.test,new DayFragment())
+                                    .replace(R.id.mainLayout,new DayFragment())
                                     .commit();
                             System.out.println("dol");
                             result = true;

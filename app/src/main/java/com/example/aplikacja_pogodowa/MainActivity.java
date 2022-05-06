@@ -14,14 +14,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Date;
+import com.android.volley.VolleyError;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     Button addCity,options;
     private final long oneHour = 3600000;
@@ -43,51 +38,48 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        Bundle jsonBundle = new Bundle();
+    //    Bundle jsonBundle = new Bundle();
         String result = readFile(getApplicationContext());
-        if (result != null) {
-            jsonBundle.putString("JsonWeather", result);
-            getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
-        }
-
-        replaceFragment(new DayFragment());
+    //    if (result != null) {
+    //        jsonBundle.putString("JsonWeather", result);
+    //        getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
+    //    }
     }
 
     private String readFile(Context context) {
-      //  try {
-      //      File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
-      //      if (file.exists()) {
-      //          Date lastModDate = new Date(file.lastModified());
-      //          if (lastModDate.getTime() + oneHour < System.currentTimeMillis()) {
+        //  try {
+        //      File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
+        //      if (file.exists()) {
+        //          Date lastModDate = new Date(file.lastModified());
+        //          if (lastModDate.getTime() + oneHour < System.currentTimeMillis()) {
 //
-      //              FileInputStream fileInputStream = context.openFileInput("Weather.Json");
+        //              FileInputStream fileInputStream = context.openFileInput("Weather.Json");
 //
-      //              InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-      //              BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-      //              StringBuilder stringBuilder = new StringBuilder();
+        //              InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+        //              BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        //              StringBuilder stringBuilder = new StringBuilder();
 //
-      //              bufferedReader.lines().forEach(stringBuilder::append);
+        //              bufferedReader.lines().forEach(stringBuilder::append);
 //
-      //              return stringBuilder.toString();
-      //          }
-      //      }
-      //  } catch (IOException fileNotFound) {
-      //      createFile();
-      //      return null;
-      //  }
-      //  createFile();
-      //  return null;
+        //              return stringBuilder.toString();
+        //          }
+        //      }
+        //  } catch (IOException fileNotFound) {
+        //      createFile();
+        //      return null;
+        //  }
+        //  createFile();
+        //  return null;
         createFile();
         return null;
     }
 
     private void createFile() {
-        DownloadFile downloadFile = new DownloadFile(getApplicationContext());
+        DownloadFile downloadFile = new DownloadFile(getApplicationContext(),this);
         downloadFile.start("Łódź");
     }
 
-    public void checkPermission(String permission, int requestCode)
-    {
+    public void checkPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission }, requestCode);
         }
@@ -115,8 +107,25 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
         .beginTransaction()
-        .replace(R.id.test,fragment)
+        .replace(R.id.mainLayout,fragment)
         .commit();
 
+    }
+
+    @Override
+    public void onSuccessResponse(WeatherData result) {
+        startNewFragment(new DayFragment(),result);
+    }
+
+    private void startNewFragment(Fragment dayFragment, WeatherData result) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("WeatherData",result);
+        getSupportFragmentManager().setFragmentResult("WeatherData",bundle);
+        replaceFragment(dayFragment);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        error.printStackTrace();
     }
 }

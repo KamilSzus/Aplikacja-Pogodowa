@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/hoursFragment"
-    tools:context=".HoursFragment">
+    tools:context=".FiveDaysFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViews"

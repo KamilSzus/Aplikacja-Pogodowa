@@ -4,7 +4,6 @@ package com.example.aplikacja_pogodowa;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,55 +22,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class DownloadFile extends AppCompatActivity implements Runnable  {
+public class DownloadFile extends AppCompatActivity {
     private String url;
     private final Context context;
-
-    //obecna pogoda
-    //na 5 dni
-    //String url = api.openweathermap.org/data/2.5/forecast?q={city name}&appid=ef6c28ac0f2520bf3fbcca2039cb8799
-    // http://openweathermap.org/img/wn/10d@2x.png
-    // https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid={API key}
-    String appId = "ef6c28ac0f2520bf3fbcca2039cb8799";
+    private final VolleyCallback callback;
+    private WeatherData weatherData;
+    private final String appId = "ef6c28ac0f2520bf3fbcca2039cb8799";
     private final String FILE_NAME = "Weather.Json";
 
-    public File jsonFile;
 
-    public DownloadFile(Context context) {
+    public DownloadFile(Context context, VolleyCallback callback) {
         this.context = context;
+        this.callback = callback;
     }
 
-      @Override
- public void run() {
-          RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+    private void SaveFile(JSONObject jsonResponse) throws IOException {
+        File jsonFile = new File(context.getFilesDir(), FILE_NAME);
+        FileWriter fileWriter = new FileWriter(jsonFile);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.write(jsonResponse.toString());
+        System.out.println(jsonResponse);
+        bufferedWriter.close();
 
-          StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-              try {
-                  JSONObject jsonResponse = new JSONObject(response);
-                  System.out.println(jsonResponse);
-                  SaveFile(jsonResponse);
-                  Bundle jsonBundle = new Bundle();
-                  jsonBundle.putString("JsonWeather", jsonResponse.toString());
-                  getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
+    }
 
-              } catch (JSONException | IOException e) {
-                  e.printStackTrace();
-              }
-          }, System.out::println);
-
-          mRequestQueue.add(stringRequest);
-
-      }
-
-      private void SaveFile(JSONObject jsonResponse) throws IOException {
-
-          FileWriter fileWriter = new FileWriter(jsonFile);
-          BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-          bufferedWriter.write(jsonResponse.toString());
-          System.out.println(jsonResponse);
-          bufferedWriter.close();
-
-      }
     public GeoPoint getLocationFromAddress(String strAddress) {
 
         Geocoder coder = new Geocoder(context);
@@ -79,16 +53,17 @@ public class DownloadFile extends AppCompatActivity implements Runnable  {
         GeoPoint p1 = null;
 
         try {
-            address = coder.getFromLocationName(strAddress,5);
-            if (address==null) {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
                 return null;
             }
-            Address location=address.get(0);
+
+            Address location = address.get(0);
             location.getLatitude();
             location.getLongitude();
 
-            p1 = new GeoPoint((double) (location.getLatitude()),
-                    (double)location.getLongitude());
+            p1 = new GeoPoint(location.getLatitude(),
+                    location.getLongitude());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,12 +71,41 @@ public class DownloadFile extends AppCompatActivity implements Runnable  {
         return p1;
     }
 
+    public void getResponse() {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, response -> {
+            try {
+                JSONObject jsonResponse = new JSONObject(response);
+                System.out.println(jsonResponse);
+                SaveFile(jsonResponse);
+
+                readDataFromJson(jsonResponse);
+                callback.onSuccessResponse(weatherData);
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            }
+            }, callback::onErrorResponse);
+
+        mRequestQueue.add(request);
+    }
+
+    private void readDataFromJson(JSONObject jsonResponse) throws JSONException {
+        weatherData = new WeatherData();
+        weatherData.setLongitude(Double.toString(jsonResponse.getDouble("lon")));
+        weatherData.setLatitude(Double.toString(jsonResponse.getDouble("lat")));
+        System.out.println(jsonResponse.getJSONObject("current"));
+        JSONObject object = jsonResponse.getJSONObject("current");
+        weatherData.setHumidity(Integer.toString(object.getInt("humidity")));
+        weatherData.setSunrise(Integer.toString(object.getInt("sunrise")));
+        weatherData.setSunset(Integer.toString(object.getInt("sunset")));
+        weatherData.setWindStrength(Double.toString(object.getDouble("wind_speed")));
+        weatherData.setTemperature(Double.toString(object.getDouble("temp")));
+    }
+
     public void start(String city) {
         GeoPoint coder = getLocationFromAddress(city);
-        url = "https://api.openweathermap.org/data/2.5/onecall?lat="+coder.getLatitude()+"&lon="+coder.getLongitude()+"&lang=pl&exclude=minutely&appid=ef6c28ac0f2520bf3fbcca2039cb8799";
-      //  url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=ef6c28ac0f2520bf3fbcca2039cb8799";
-        jsonFile = new File(context.getFilesDir(),FILE_NAME);
-        Thread thread = new Thread(this);
-        thread.start();
+        url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coder.getLatitude() + "&lon=" + coder.getLongitude() + "&lang=pl&exclude=minutely&appid="+appId;
+        getResponse();
     }
 }
