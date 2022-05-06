@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,7 +36,15 @@ public class HoursFragment extends Fragment  {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViews);
         //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new MyRecyclerViewAdapter(temperature));
+        recyclerView.setAdapter(new MyRecyclerViewAdapter(temperature, (v) -> {
+            System.out.println("ALAAAAAA");
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.test, new DayFragment())
+                    .commit();
+        }
+        ));
 
         return view;
     }

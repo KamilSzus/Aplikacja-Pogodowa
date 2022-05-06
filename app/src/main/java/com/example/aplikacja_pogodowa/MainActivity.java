@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         replaceFragment(new DayFragment());
-
     }
 
     private String readFile(Context context) {

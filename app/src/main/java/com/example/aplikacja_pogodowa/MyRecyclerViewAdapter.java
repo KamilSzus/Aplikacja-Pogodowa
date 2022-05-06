@@ -15,9 +15,11 @@ import java.util.List;
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
     private final List<String> mData;
+    private CustomItemClickListener mClickListener;
 
-    public MyRecyclerViewAdapter(List<String> data) {
+    public MyRecyclerViewAdapter(List<String> data, CustomItemClickListener listener) {
         this.mData = data;
+        this.mClickListener=listener;
     }
 
     @NonNull
@@ -29,6 +31,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }else{
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.button, parent, false);
         }
+
         view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int height = view.getMeasuredHeight();
         return new ViewHolder(view, height);
@@ -38,6 +41,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (position == mData.size()) {
             holder.button.setOnClickListener(v -> {
+                mClickListener.onItemClick(v);
             });
         } else {
             holder.myTextViewHours.setText(mData.get(position));
@@ -57,7 +61,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return (position == mData.size()) ? R.layout.button : R.layout.hours_row;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder  {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView myTextViewTemperature;
         TextView myTextViewHours;
         ImageView imageView;
