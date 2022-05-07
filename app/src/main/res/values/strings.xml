@@ -25,4 +25,10 @@
     <string name="wysoko_geograficzna">Wysokość geograficzna</string>
     <string name="wysoko">Wysokość</string>
     <string name="szerokosc">Szerokosc</string>
+    <string name="kierunek_wiatru">Kierunek wiatru</string>
+    <string name="widoczno">Widoczność</string>
+    <string name="wilgotno">Wilgotność</string>
+    <string name="zach_d_s_o_ca">Zachód słońca</string>
+    <string name="wsch_d_s_o_ca">Wschód słońca</string>
+    <string name="si_a_wiatru">Siła wiatru</string>
 </resources>

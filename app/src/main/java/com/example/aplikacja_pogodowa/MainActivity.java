@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
         checkPermission(Manifest.permission.INTERNET, INTERNET);
 
-        addCity.setOnClickListener(v -> replaceFragment(new DayFragment()));
+        addCity.setOnClickListener(v -> replaceFragment(new DayFragment(),null));
         options.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(i);
@@ -103,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         }
     }
 
-    private void replaceFragment(Fragment fragment) {
-
+    private void replaceFragment(Fragment fragment, Bundle bundle) {
+        fragment.setArguments(bundle);
         getSupportFragmentManager()
-        .beginTransaction()
-        .replace(R.id.mainLayout,fragment)
-        .commit();
-
+                .beginTransaction()
+                .replace(R.id.mainLayout, fragment)
+                .setReorderingAllowed(true)
+                .commit();
     }
 
     @Override
@@ -120,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     private void startNewFragment(Fragment dayFragment, WeatherData result) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("WeatherData",result);
-        getSupportFragmentManager().setFragmentResult("WeatherData",bundle);
-        replaceFragment(dayFragment);
+        replaceFragment(dayFragment,bundle);
     }
 
     @Override

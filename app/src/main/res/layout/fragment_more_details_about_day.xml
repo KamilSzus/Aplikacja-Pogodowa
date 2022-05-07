@@ -1,141 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".MoreDetailsAboutDay">
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Kierunek wiatru"
+            android:text="@string/kierunek_wiatru"
             android:layout_weight="1"
             android:textSize="20sp"
             />
 
         <TextView
+            android:id="@+id/WindDirection"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
             android:textSize="20sp"
             />
     </TableRow>
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Siła wiatru"
+            android:text="@string/si_a_wiatru"
             android:layout_weight="1"
             android:textSize="20sp"
             />
 
         <TextView
+            android:id="@+id/WindStrength"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
             android:textSize="20sp"
             />
     </TableRow>
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Wschód słońca"
+            android:text="@string/wsch_d_s_o_ca"
             android:layout_weight="1"
             android:textSize="20sp"
             />
 
         <TextView
+            android:id="@+id/Sunrise"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
             android:textSize="20sp"
             />
     </TableRow>
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Zachód słońca"
+            android:text="@string/zach_d_s_o_ca"
             android:layout_weight="1"
             android:textSize="20sp"
             />
 
         <TextView
+            android:id="@+id/Sunset"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
             android:textSize="20sp"
             />
     </TableRow>
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Wilgotność"
+            android:text="@string/wilgotno"
             android:layout_weight="1"
             android:textSize="20sp"
             />
 
         <TextView
+            android:id="@+id/Humidity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
             android:textSize="20sp"
             />
     </TableRow>
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Widoczność"
+            android:text="@string/widoczno"
             android:layout_weight="1"
             android:textSize="20sp"
             />
 
         <TextView
+            android:id="@+id/Visibility"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
             android:layout_weight="1"
             android:textSize="20sp"
             />
     </TableRow>
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
     <Button
         android:id="@+id/back"

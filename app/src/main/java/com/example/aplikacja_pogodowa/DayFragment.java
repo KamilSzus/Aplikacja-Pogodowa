@@ -22,8 +22,9 @@ import java.net.URL;
 public class DayFragment extends Fragment {
 
     private GestureDetector mDetector;
-    NetworkImageView  weatherIcon;
+    NetworkImageView weatherIcon;
     ImageLoader imageLoader;
+    Bundle bundle;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -34,23 +35,30 @@ public class DayFragment extends Fragment {
         Button buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
 
         buttonMoreDetails.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
+            Fragment fragment = new MoreDetailsAboutDay();
+            fragment.setArguments(bundle);
+            getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.mainLayout,new MoreDetailsAboutDay())
+                    .replace(R.id.mainLayout, fragment)
+                    .setReorderingAllowed(true)
                     .commit();
         });
 
         gesture(view);
-        getParentFragmentManager().setFragmentResultListener("WeatherData", this, (requestKey, result) -> {
-            WeatherData weatherData = (WeatherData) result.getSerializable("WeatherData");
+
+        bundle = this.getArguments();
+        if (bundle != null) {
+            WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
+
             TextView temperatureData = view.findViewById(R.id.TemperatureData);
             temperatureData.setText(weatherData.getTemperature());
+
             TextView latData = view.findViewById(R.id.LatitudeData);
             latData.setText(weatherData.getLatitude());
+
             TextView lonData = view.findViewById(R.id.LongitudeData);
             lonData.setText(weatherData.getLongitude());
-        });
+        }
 
         URL u = null;
         try {
@@ -68,12 +76,13 @@ public class DayFragment extends Fragment {
     }
 
     private void gesture(View view) {
-        mDetector = new GestureDetector(getActivity(), new SimpleOnGestureListener(){
+        mDetector = new GestureDetector(getActivity(), new SimpleOnGestureListener() {
             @Override
-            public boolean onDown(MotionEvent event){
+            public boolean onDown(MotionEvent event) {
 
                 return true;
             }
+
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 boolean result = false;
@@ -87,13 +96,12 @@ public class DayFragment extends Fragment {
                             requireActivity()
                                     .getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.mainLayout,new FiveDaysFragment())
+                                    .replace(R.id.mainLayout, new FiveDaysFragment())
                                     .commit();
                             result = true;
                         }
                     }
-                }
-                catch (Exception exception) {
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
                 return result;
