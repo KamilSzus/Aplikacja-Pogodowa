@@ -12,6 +12,15 @@ public class WeatherData implements Serializable {
     private String sunset;
     private String humidity;
     private String visibility;
+    private String timeZone;
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
 
     public String getTemperature() {
         return temperature;

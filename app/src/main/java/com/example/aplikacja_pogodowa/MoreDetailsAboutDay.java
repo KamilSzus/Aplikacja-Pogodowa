@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 public class MoreDetailsAboutDay extends Fragment {
 
     Button back;
@@ -41,18 +46,34 @@ public class MoreDetailsAboutDay extends Fragment {
         if (bundle != null) {
             WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
 
+            TextView timeZone = view.findViewById(R.id.TimeZoneData);
+            timeZone.setText(weatherData.getTimeZone());
+
             TextView windStrength = view.findViewById(R.id.WindStrength);
             windStrength.setText(weatherData.getWindStrength());
 
             TextView humidity = view.findViewById(R.id.Humidity);
             humidity.setText(weatherData.getHumidity());
 
+            TextView visibility = view.findViewById(R.id.Visibility);
+            visibility.setText(weatherData.getVisibility());
+
             TextView sunrise = view.findViewById(R.id.Sunrise);
-            sunrise.setText(weatherData.getSunrise());
+            sunrise.setText(convertTime(weatherData.getSunrise(), weatherData.getTimeZone()));
 
             TextView sunset = view.findViewById(R.id.Sunset);
-            sunset.setText(weatherData.getSunset());
+            sunset.setText(convertTime(weatherData.getSunset(), weatherData.getTimeZone()));
         }
         return view;
+    }
+
+    private String convertTime(String time,String timeZone) {
+        final DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        final long unixTime = Long.parseLong(time);
+        return Instant.ofEpochSecond(unixTime)
+                .atZone(ZoneId.of(timeZone))
+                .format(formatter);
     }
 }

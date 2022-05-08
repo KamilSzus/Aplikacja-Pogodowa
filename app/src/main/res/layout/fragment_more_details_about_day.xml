@@ -13,20 +13,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/kierunek_wiatru"
+            android:text="@string/strefa_czasowa"
             android:layout_weight="1"
             android:textSize="20sp"
             />
 
         <TextView
-            android:id="@+id/WindDirection"
+            android:id="@+id/TimeZoneData"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="20sp"
             />
     </TableRow>
-
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
