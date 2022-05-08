@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/hoursFragment"
-    tools:context=".FiveDaysFragment">
+    tools:context=".DaysFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/hours_row" />
+        tools:listitem="@layout/days_row" />
 
 </RelativeLayout>

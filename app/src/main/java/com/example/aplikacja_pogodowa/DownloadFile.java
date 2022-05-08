@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.firestore.GeoPoint;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +27,7 @@ public class DownloadFile extends AppCompatActivity {
     private String url;
     private final Context context;
     private final VolleyCallback callback;
-    private WeatherData weatherData;
+    private WeatherData weatherData = new WeatherData();
     private final String appId = "ef6c28ac0f2520bf3fbcca2039cb8799";
     private final String FILE_NAME = "Weather.Json";
 
@@ -81,6 +82,7 @@ public class DownloadFile extends AppCompatActivity {
                 SaveFile(jsonResponse);
 
                 readDataFromJson(jsonResponse);
+                readDataFromJsonForFiveDays(jsonResponse);
                 callback.onSuccessResponse(weatherData);
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
@@ -91,7 +93,6 @@ public class DownloadFile extends AppCompatActivity {
     }
 
     private void readDataFromJson(JSONObject jsonResponse) throws JSONException {
-        weatherData = new WeatherData();
         weatherData.setLongitude(Double.toString(jsonResponse.getDouble("lon")));
         weatherData.setLatitude(Double.toString(jsonResponse.getDouble("lat")));
         weatherData.setTimeZone(jsonResponse.getString("timezone"));
@@ -103,6 +104,14 @@ public class DownloadFile extends AppCompatActivity {
         weatherData.setSunset(Integer.toString(object.getInt("sunset")));
         weatherData.setWindStrength(Double.toString(object.getDouble("wind_speed")));
         weatherData.setTemperature(Double.toString(object.getDouble("temp")));
+    }
+
+    private void readDataFromJsonForFiveDays(JSONObject jsonResponse) throws JSONException {
+       JSONArray jsonArray = jsonResponse.getJSONArray("daily");
+       for(int i = 1;i<jsonArray.length();i++) {
+           weatherData.getDayList().add(Integer.toString(jsonArray.getJSONObject(i).getInt("dt")));
+           weatherData.getTemperatureList().add(Double.toString(jsonArray.getJSONObject(i).getJSONObject("temp").getDouble("day")));
+       }
     }
 
     public void start(String city) {

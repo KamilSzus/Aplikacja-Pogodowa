@@ -22,16 +22,14 @@ import java.net.URL;
 public class DayFragment extends Fragment {
 
     private GestureDetector mDetector;
-    NetworkImageView weatherIcon;
-    ImageLoader imageLoader;
-    Bundle bundle;
+    private Bundle bundle;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
-        weatherIcon = view.findViewById(R.id.WeatherIcon);
+        NetworkImageView weatherIcon = view.findViewById(R.id.WeatherIcon);
         Button buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
 
         buttonMoreDetails.setOnClickListener(v -> {
@@ -67,7 +65,7 @@ public class DayFragment extends Fragment {
             e.printStackTrace();
         }
 
-        imageLoader = DownloadImage.getInstance(this.getContext())
+        ImageLoader imageLoader = DownloadImage.getInstance(this.getContext())
                 .getImageLoader();
         imageLoader.get(u.toString(), ImageLoader.getImageListener(weatherIcon, R.drawable.finding, R.drawable.finding));
         weatherIcon.setImageUrl(u.toString(), imageLoader);
@@ -92,11 +90,12 @@ public class DayFragment extends Fragment {
                     final int SWIPE_VELOCITY_THRESHOLD = 100;
                     if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffY > 0) {
-                            System.out.println("gora dol");
-                            requireActivity()
-                                    .getSupportFragmentManager()
+                            Fragment fragment = new DaysFragment();
+                            fragment.setArguments(bundle);
+                            getParentFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.mainLayout, new FiveDaysFragment())
+                                    .replace(R.id.mainLayout, fragment)
+                                    .setReorderingAllowed(true)
                                     .commit();
                             result = true;
                         }

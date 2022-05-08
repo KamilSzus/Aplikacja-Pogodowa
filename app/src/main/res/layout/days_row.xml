@@ -15,16 +15,16 @@
             android:layout_gravity="center_vertical">
 
         <TextView
-            android:id="@+id/hours"
+            android:id="@+id/dzien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint=" godzina"
+            android:hint="@string/dzien"
             android:textAlignment="center"
             android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/temp3"
+                    android:id="@+id/Temperature_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -33,7 +33,7 @@
                     android:textSize="20sp" />
 
                 <ImageView
-                    android:id="@+id/WeatherIcon"
+                    android:id="@+id/WeatherIconDays"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"

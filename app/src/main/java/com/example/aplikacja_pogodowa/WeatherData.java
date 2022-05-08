@@ -1,6 +1,7 @@
 package com.example.aplikacja_pogodowa;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class WeatherData implements Serializable {
     private String temperature;
@@ -13,6 +14,24 @@ public class WeatherData implements Serializable {
     private String humidity;
     private String visibility;
     private String timeZone;
+    private ArrayList<String> temperatureList = new ArrayList<>();
+    private ArrayList<String> dayList = new ArrayList<>();
+
+    public ArrayList<String> getTemperatureList() {
+        return temperatureList;
+    }
+
+    public void setTemperatureList(ArrayList<String> temperatureList) {
+        this.temperatureList = temperatureList;
+    }
+
+    public ArrayList<String> getDayList() {
+        return dayList;
+    }
+
+    public void setDayList(ArrayList<String> dayList) {
+        this.dayList = dayList;
+    }
 
     public String getTimeZone() {
         return timeZone;
