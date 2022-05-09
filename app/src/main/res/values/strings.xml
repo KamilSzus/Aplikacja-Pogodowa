@@ -33,4 +33,7 @@
     <string name="si_a_wiatru">Siła wiatru</string>
     <string name="strefa_czasowa">Strefa czasowa</string>
     <string name="dzien">Dzien</string>
+    <string name="ulubione_miasto">ulubione_miasto</string>
+    <string name="usun">Usun</string>
+    <string name="podaj_nazwe_miasta">Podaj nazwe miasta</string>
 </resources>
