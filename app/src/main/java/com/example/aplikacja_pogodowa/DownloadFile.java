@@ -47,7 +47,7 @@ public class DownloadFile extends AppCompatActivity {
 
     }
 
-    public GeoPoint getLocationFromAddress(String strAddress) {
+    private GeoPoint getLocationFromAddress(String strAddress) {
 
         Geocoder coder = new Geocoder(context);
         List<Address> address;
@@ -72,7 +72,7 @@ public class DownloadFile extends AppCompatActivity {
         return p1;
     }
 
-    public void getResponse() {
+    private void getResponse() {
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
         StringRequest request = new StringRequest(Request.Method.POST, url, response -> {
@@ -82,12 +82,13 @@ public class DownloadFile extends AppCompatActivity {
                 SaveFile(jsonResponse);
 
                 readDataFromJson(jsonResponse);
-                readDataFromJsonForFiveDays(jsonResponse);
+                readDataFromJsonForDays(jsonResponse);
+                readIconFromJson(jsonResponse);
                 callback.onSuccessResponse(weatherData);
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
-            }, callback::onErrorResponse);
+        }, callback::onErrorResponse);
 
         mRequestQueue.add(request);
     }
@@ -106,17 +107,30 @@ public class DownloadFile extends AppCompatActivity {
         weatherData.setTemperature(Double.toString(object.getDouble("temp")));
     }
 
-    private void readDataFromJsonForFiveDays(JSONObject jsonResponse) throws JSONException {
-       JSONArray jsonArray = jsonResponse.getJSONArray("daily");
-       for(int i = 1;i<jsonArray.length();i++) {
-           weatherData.getDayList().add(Integer.toString(jsonArray.getJSONObject(i).getInt("dt")));
-           weatherData.getTemperatureList().add(Double.toString(jsonArray.getJSONObject(i).getJSONObject("temp").getDouble("day")));
-       }
+    private void readDataFromJsonForDays(JSONObject jsonResponse) throws JSONException {
+        JSONArray jsonArray = jsonResponse.getJSONArray("daily");
+        for (int i = 1; i < jsonArray.length(); i++) {
+            weatherData.getDayList().add(Integer.toString(jsonArray.getJSONObject(i)
+                    .getInt("dt")));
+            weatherData.getTemperatureList().add(Double.toString(jsonArray.getJSONObject(i)
+                    .getJSONObject("temp")
+                    .getDouble("day")));
+        }
+    }
+
+    private void readIconFromJson(JSONObject jsonResponse) throws JSONException {
+        JSONArray jsonArray = jsonResponse.getJSONArray("daily");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            weatherData.getImageIcon().add(jsonArray.getJSONObject(i)
+                    .getJSONArray("weather")
+                    .getJSONObject(0)
+                    .getString("icon"));
+        }
     }
 
     public void start(String city) {
         GeoPoint coder = getLocationFromAddress(city);
-        url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coder.getLatitude() + "&lon=" + coder.getLongitude() + "&lang=pl&exclude=minutely&appid="+appId;
+        url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coder.getLatitude() + "&lon=" + coder.getLongitude() + "&lang=pl&exclude=minutely&appid=" + appId;
         getResponse();
     }
 }

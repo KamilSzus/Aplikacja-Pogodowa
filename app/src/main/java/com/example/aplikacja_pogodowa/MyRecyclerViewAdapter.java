@@ -4,11 +4,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -17,16 +18,13 @@ import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
-    private final List<String> temperatureList;
-    private final List<String> daysList;
     private final CustomItemClickListener mClickListener;
-    private final String timeZone;
+    private final WeatherData weatherData;
 
-    public MyRecyclerViewAdapter(List<String> temperature,List<String> days, String timeZone, CustomItemClickListener listener) {
-        temperatureList = temperature;
+    public MyRecyclerViewAdapter(WeatherData weatherData, CustomItemClickListener listener) {
+        this.weatherData = weatherData;
         mClickListener = listener;
-        daysList = days;
-        this.timeZone = timeZone;
+
     }
 
     @NonNull
@@ -46,24 +44,24 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position == temperatureList.size()) {
+        if (position == weatherData.getTemperatureList().size()) {
             holder.button.setOnClickListener(mClickListener::onItemClick);
         } else {
-            holder.myTextViewDays.setText(convertTime(daysList.get(position),timeZone));
-            holder.myTextViewTemperature.setText(temperatureList.get(position));
-            holder.imageView.setImageResource(R.drawable.temp);
+            holder.myTextViewDays.setText(convertTime(weatherData.getDayList().get(position), weatherData.getTimeZone()));
+            holder.myTextViewTemperature.setText(weatherData.getTemperatureList().get(position));
+            holder.networkImageView.setDefaultImageBitmap(weatherData.getImageList().get(position+1));
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return temperatureList.size()+1;
+        return weatherData.getTemperatureList().size()+1;
     }
 
     @Override
     public int getItemViewType(final int position) {
-        return (position == temperatureList.size()) ? R.layout.button : R.layout.days_row;
+        return (position == weatherData.getTemperatureList().size()) ? R.layout.button : R.layout.days_row;
     }
 
     private String convertTime(String time,String timeZone) {
@@ -79,7 +77,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView myTextViewTemperature;
         TextView myTextViewDays;
-        ImageView imageView;
+        NetworkImageView networkImageView;
         Button button;
 
         ViewHolder(View itemView, int height) {
@@ -87,7 +85,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             itemView.setMinimumHeight(height);
             myTextViewTemperature = itemView.findViewById(R.id.Temperature_days);
             myTextViewDays = itemView.findViewById(R.id.dzien);
-            imageView = itemView.findViewById(R.id.WeatherIconDays);
+            networkImageView = itemView.findViewById(R.id.WeatherIconDays);
             button = itemView.findViewById(R.id.back);
         }
     }

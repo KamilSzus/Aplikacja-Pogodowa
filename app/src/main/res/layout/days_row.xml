@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    android:id="@+id/linear">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:layout_gravity="center_vertical">
+    android:layout_marginEnd="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/dzien"
@@ -23,22 +23,24 @@
             android:textAlignment="center"
             android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/Temperature_days"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Temperature"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
+        <TextView
+            android:id="@+id/Temperature_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Temperature"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
-                <ImageView
-                    android:id="@+id/WeatherIconDays"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/WeatherIcon"
-                    tools:src="@drawable/temp" />
-        </LinearLayout>
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/WeatherIconDays"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/WeatherIcon"
+            tools:src="@drawable/temp" />
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

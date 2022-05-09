@@ -1,67 +1,41 @@
 package com.example.aplikacja_pogodowa;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.LruCache;
+import android.widget.ImageView;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 
 public class DownloadImage {
 
-    @SuppressLint("StaticFieldLeak")
-    private static DownloadImage customVolleyRequest;
-    @SuppressLint("StaticFieldLeak")
-    private static Context context;
-    private RequestQueue requestQueue;
-    private final ImageLoader imageLoader;
+    private String url="https://openweathermap.org/img/wn/";
+    private final Context context;
+    private final VolleyCallback callback;
+    private WeatherData weatherData;
 
 
-    private DownloadImage(Context context) {
-        DownloadImage.context = context;
-        this.requestQueue = getRequestQueue();
-
-        imageLoader = new ImageLoader(requestQueue,
-                new ImageLoader.ImageCache() {
-                    private final LruCache<String, Bitmap>
-                            cache = new LruCache<String, Bitmap>(20);
-
-                    @Override
-                    public Bitmap getBitmap(String url) {
-                        return cache.get(url);
-                    }
-
-                    @Override
-                    public void putBitmap(String url, Bitmap bitmap) {
-                        cache.put(url, bitmap);
-                    }
-                });
+    public DownloadImage(Context context,VolleyCallback callback,WeatherData data) {
+        this.context = context;
+        this.callback = callback;
+        weatherData = data;
     }
 
-    public static synchronized DownloadImage getInstance(Context context) {
-        if (customVolleyRequest == null) {
-            customVolleyRequest = new DownloadImage(context);
+        public void getResponse(String imageId) {
+            String urlForImage = url + imageId + "@2x.png";
+            RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+            ImageRequest request = new ImageRequest(urlForImage, response ->{
+                    System.out.println(response);
+                    weatherData.getImageList().add(response);
+                    callback.onSuccessResponseImage(weatherData);
+            }, 0, 0, ImageView.ScaleType.CENTER, Bitmap.Config.RGB_565 ,
+                    callback::onErrorResponseImage);
+
+            mRequestQueue.add(request);
         }
-        return customVolleyRequest;
-    }
 
-    public RequestQueue getRequestQueue() {
-        if (requestQueue == null) {
-            Cache cache = new DiskBasedCache(context.getCacheDir(), 10 * 1024 * 1024);
-            Network network = new BasicNetwork(new HurlStack());
-            requestQueue = new RequestQueue(cache, network);
-            requestQueue.start();
+        public void start(){
+            weatherData.getImageIcon().forEach(this::getResponse);
         }
-        return requestQueue;
-    }
-
-    public ImageLoader getImageLoader() {
-        return imageLoader;
-    }
 }

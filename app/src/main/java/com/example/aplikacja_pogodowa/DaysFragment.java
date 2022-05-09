@@ -1,5 +1,6 @@
 package com.example.aplikacja_pogodowa;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DaysFragment extends Fragment  {
+import com.android.volley.VolleyError;
+
+public class DaysFragment extends Fragment implements VolleyCallback {
 
     private Bundle bundle;
 
@@ -22,7 +25,7 @@ public class DaysFragment extends Fragment  {
         bundle = this.getArguments();
         if (bundle != null) {
             WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
-            recyclerView.setAdapter(new MyRecyclerViewAdapter(weatherData.getTemperatureList(), weatherData.getDayList(), weatherData.getTimeZone() , v -> {
+            recyclerView.setAdapter(new MyRecyclerViewAdapter(weatherData, v -> {
                 Fragment fragment = new DayFragment();
                 fragment.setArguments(bundle);
                 getParentFragmentManager()
@@ -34,5 +37,25 @@ public class DaysFragment extends Fragment  {
         }
 
         return view;
+    }
+
+    @Override
+    public void onSuccessResponse(WeatherData result) {
+
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onSuccessResponseImage(WeatherData bitmap) {
+
+    }
+
+    @Override
+    public void onErrorResponseImage(VolleyError error) {
+
     }
 }

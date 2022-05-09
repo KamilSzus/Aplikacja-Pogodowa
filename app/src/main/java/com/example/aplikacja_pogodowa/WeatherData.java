@@ -1,5 +1,7 @@
 package com.example.aplikacja_pogodowa;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,8 +16,27 @@ public class WeatherData implements Serializable {
     private String humidity;
     private String visibility;
     private String timeZone;
+
     private ArrayList<String> temperatureList = new ArrayList<>();
     private ArrayList<String> dayList = new ArrayList<>();
+    private ArrayList<Bitmap> imageList = new ArrayList<>();
+    private ArrayList<String> imageIcon = new ArrayList<>();
+
+    public ArrayList<String> getImageIcon() {
+        return imageIcon;
+    }
+
+    public void setImageIcon(ArrayList<String> imageIcon) {
+        this.imageIcon = imageIcon;
+    }
+
+    public ArrayList<Bitmap> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(ArrayList<Bitmap> imageList) {
+        this.imageList = imageList;
+    }
 
     public ArrayList<String> getTemperatureList() {
         return temperatureList;

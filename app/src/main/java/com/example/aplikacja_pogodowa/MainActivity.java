@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -114,7 +115,8 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     @Override
     public void onSuccessResponse(WeatherData result) {
-        startNewFragment(new DayFragment(),result);
+        DownloadImage downloadImage = new DownloadImage(getApplicationContext(),this,result);
+        downloadImage.start();
     }
 
     private void startNewFragment(Fragment dayFragment, WeatherData result) {
@@ -126,5 +128,15 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
+    }
+
+    @Override
+    public void onSuccessResponseImage(WeatherData result) {
+        startNewFragment(new DayFragment(),result);
+    }
+
+    @Override
+    public void onErrorResponseImage(VolleyError error) {
+        System.out.println(error);
     }
 }

@@ -56,19 +56,11 @@ public class DayFragment extends Fragment {
 
             TextView lonData = view.findViewById(R.id.LongitudeData);
             lonData.setText(weatherData.getLongitude());
+
+            weatherIcon.setDefaultImageBitmap(weatherData.getImageList().get(0));
         }
 
-        URL u = null;
-        try {
-            u = new URL("http://openweathermap.org/img/wn/10d@2x.png");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
 
-        ImageLoader imageLoader = DownloadImage.getInstance(this.getContext())
-                .getImageLoader();
-        imageLoader.get(u.toString(), ImageLoader.getImageListener(weatherIcon, R.drawable.finding, R.drawable.finding));
-        weatherIcon.setImageUrl(u.toString(), imageLoader);
 
         return view;
     }
