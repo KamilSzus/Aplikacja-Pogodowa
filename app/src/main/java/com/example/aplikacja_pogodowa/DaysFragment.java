@@ -1,6 +1,5 @@
 package com.example.aplikacja_pogodowa;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.VolleyError;
-
-public class DaysFragment extends Fragment implements VolleyCallback {
+public class DaysFragment extends Fragment{
 
     private Bundle bundle;
 
@@ -37,25 +34,5 @@ public class DaysFragment extends Fragment implements VolleyCallback {
         }
 
         return view;
-    }
-
-    @Override
-    public void onSuccessResponse(WeatherData result) {
-
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-
-    }
-
-    @Override
-    public void onSuccessResponseImage(WeatherData bitmap) {
-
-    }
-
-    @Override
-    public void onErrorResponseImage(VolleyError error) {
-
     }
 }

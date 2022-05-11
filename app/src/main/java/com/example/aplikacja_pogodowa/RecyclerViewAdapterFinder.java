@@ -47,7 +47,7 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
             holder.alreadyAdded.setImageResource(R.drawable.ulubione);
             holder.alreadyAdded.setOnClickListener(clickListenerFinder::onClickAlreadyAdded);
             holder.deleteFromFavorite.setImageResource(R.drawable.trash);
-            holder.deleteFromFavorite.setOnClickListener(clickListenerFinder::onClickTrash);
+            //holder.deleteFromFavorite.setOnClickListener(clickListenerFinder.onClickTrash(position));
         }
     }
 

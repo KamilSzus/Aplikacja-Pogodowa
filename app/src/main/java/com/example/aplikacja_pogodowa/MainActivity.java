@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,25 +20,23 @@ import com.android.volley.VolleyError;
 
 public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
-    Button addCity,options;
     private final long oneHour = 3600000;
     private final int  INTERNET = 3;
+    private TextView city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addCity = findViewById(R.id.AddCity);
-        options = findViewById(R.id.Options);
+        Button addCity = findViewById(R.id.AddCity);
+        Button options = findViewById(R.id.Options);
+        city = findViewById(R.id.City);
 
         checkPermission(Manifest.permission.INTERNET, INTERNET);
 
-        addCity.setOnClickListener(v -> replaceFragment(new DayFragment(),null));
-        options.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(i);
-        });
+        addCity.setOnClickListener(v -> replaceFragment(new CityFragment(),null));
+        options.setOnClickListener(v -> replaceFragment(new SettingsFragment(),null));
 
     //    Bundle jsonBundle = new Bundle();
         String result = readFile(getApplicationContext());
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     private void createFile() {
         DownloadFile downloadFile = new DownloadFile(getApplicationContext(),this);
-        downloadFile.start("Łódź");
+        downloadFile.start(city.getText().toString());
     }
 
     public void checkPermission(String permission, int requestCode) {

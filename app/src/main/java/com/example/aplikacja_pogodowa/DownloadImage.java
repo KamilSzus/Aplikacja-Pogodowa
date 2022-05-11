@@ -26,7 +26,6 @@ public class DownloadImage {
             String urlForImage = url + imageId + "@2x.png";
             RequestQueue mRequestQueue = Volley.newRequestQueue(context);
             ImageRequest request = new ImageRequest(urlForImage, response ->{
-                    System.out.println(response);
                     weatherData.getImageList().add(response);
                     callback.onSuccessResponseImage(weatherData);
             }, 0, 0, ImageView.ScaleType.CENTER, Bitmap.Config.RGB_565 ,
