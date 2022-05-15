@@ -88,7 +88,7 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
                 addToFavorite.setOnClickListener(v -> clickListenerFinder.onClickAddToFavorite(getBindingAdapterPosition()-1,findCity.getText().toString()));
             }
             if(apply!=null){
-                apply.setOnClickListener(v -> System.out.println("ddddd"));
+                apply.setOnClickListener(v -> clickListenerFinder.onClickApply(0,findCity.getText().toString()));
             }
 
         }

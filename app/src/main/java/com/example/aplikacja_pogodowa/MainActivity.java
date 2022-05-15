@@ -39,14 +39,18 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         options.setOnClickListener(v -> replaceFragment(new SettingsFragment(),null));
 
     //    Bundle jsonBundle = new Bundle();
-        String result = readFile(getApplicationContext());
+        String result = readFile();
     //    if (result != null) {
     //        jsonBundle.putString("JsonWeather", result);
     //        getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
     //    }
     }
 
-    private String readFile(Context context) {
+    public void setTextViewCity(String newName){
+        city.setText(newName);
+    }
+
+    public String readFile() {
         //  try {
         //      File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
         //      if (file.exists()) {
