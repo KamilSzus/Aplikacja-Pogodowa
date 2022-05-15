@@ -45,7 +45,6 @@ public class DownloadFile extends AppCompatActivity {
         bufferedWriter.write(jsonResponse.toString());
         System.out.println(jsonResponse);
         bufferedWriter.close();
-
     }
 
     private GeoPoint getLocationFromAddress(String strAddress) {

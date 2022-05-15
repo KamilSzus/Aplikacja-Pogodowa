@@ -1,29 +1,32 @@
 package com.example.aplikacja_pogodowa;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CityFragment extends Fragment implements ClickListenerFinder {
 
-    Bundle bundle;
     RecyclerViewAdapterFinder adapter;
     ArrayList<String> cityList = new ArrayList<>();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,11 +34,47 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewsCity);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        cityList.add("Łódź");
+        readFile();
         adapter = new RecyclerViewAdapterFinder(cityList,this);
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    public void readFile() {
+        try {
+            FileInputStream fileInputStream = ((MainActivity) requireActivity()).getApplicationContext().openFileInput("City.txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            System.out.println(bufferedReader);
+            bufferedReader.lines().forEach(cityList::add);
+        } catch (IOException ignored) {
+            new File(((MainActivity) requireActivity()).getApplicationContext().getFilesDir(), "City.txt");
+        }
+    }
+
+    private void loadNewFragment(String city){
+        updateCityFile();
+        ((MainActivity) requireActivity()).setTextViewCity(city);
+        ((MainActivity) requireActivity()).readFile();
+    }
+
+    private void updateCityFile() {
+        try {
+            FileOutputStream outputStream = ((MainActivity) requireActivity()).getApplicationContext().openFileOutput("City.txt", Context.MODE_PRIVATE);
+            cityList.forEach(s -> {
+                try {
+                    s=s+"\n";
+                    outputStream.write(s.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -46,20 +85,17 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
 
     @Override
     public void onClickAlreadyAdded(int position) {
-        ((MainActivity) requireActivity()).setTextViewCity( cityList.get(position));
-        ((MainActivity) requireActivity()).readFile();
+        loadNewFragment(cityList.get(position));
     }
 
     @Override
     public void onClickApply(int position, String city) {
-        ((MainActivity) requireActivity()).setTextViewCity(city);
-        ((MainActivity) requireActivity()).readFile();
-
+        loadNewFragment(city);
     }
 
     @Override
     public void onClickAddToFavorite(int position, String city) {
-        cityList.add(city);
-        adapter.notifyItemInserted(position+1);
+        cityList.add(0,city);
+        adapter.notifyItemInserted(position+1);//????
     }
 }

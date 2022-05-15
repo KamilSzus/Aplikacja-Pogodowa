@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerViewAdapterFinder.ViewHolderFinder>{
 
     private final ArrayList<String> cityList;
+
     private final ClickListenerFinder clickListenerFinder;
 
     public RecyclerViewAdapterFinder(ArrayList<String> cityList, ClickListenerFinder clickListenerFinder) {
@@ -42,7 +43,7 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
         if(position==0){
             holder.addToFavorite.setImageResource(R.drawable.ulubione);
         }else{
-            holder.cityName.setText(cityList.get(cityList.size()-1));
+            holder.cityName.setText(cityList.get(position-1));
             holder.alreadyAdded.setImageResource(R.drawable.ulubione);
             holder.deleteFromFavorite.setImageResource(R.drawable.trash);
         }
@@ -87,7 +88,7 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
                 alreadyAdded.setOnClickListener(v -> System.out.println("AAAAAA"));
             }
             if(addToFavorite!=null){
-                addToFavorite.setOnClickListener(v -> clickListenerFinder.onClickAddToFavorite(getBindingAdapterPosition()-1,findCity.getText().toString()));
+                addToFavorite.setOnClickListener(v -> clickListenerFinder.onClickAddToFavorite(getBindingAdapterPosition(),findCity.getText().toString()));
             }
             if(apply!=null){
                 apply.setOnClickListener(v -> clickListenerFinder.onClickApply(0,findCity.getText().toString()));
