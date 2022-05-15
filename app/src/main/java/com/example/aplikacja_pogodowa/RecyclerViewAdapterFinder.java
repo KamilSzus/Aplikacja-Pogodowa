@@ -78,6 +78,8 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
             deleteFromFavorite = itemView.findViewById(R.id.delete);
             alreadyAdded = itemView.findViewById(R.id.starIcon);
 
+            itemView.setOnClickListener(v -> clickListenerFinder.onClickAlreadyAdded(getBindingAdapterPosition()-1));
+
             if(deleteFromFavorite!=null) {
                 deleteFromFavorite.setOnClickListener(v -> clickListenerFinder.onClickTrash(getBindingAdapterPosition()-1));
             }

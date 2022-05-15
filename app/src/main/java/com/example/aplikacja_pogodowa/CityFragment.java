@@ -39,14 +39,15 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
     }
 
     @Override
-    public void onClickTrash(int index) {
-        cityList.remove(index);
-        adapter.notifyItemRemoved(index+1);
+    public void onClickTrash(int position) {
+        cityList.remove(position);
+        adapter.notifyItemRemoved(position+1);
     }
 
     @Override
-    public void onClickAlreadyAdded(View v) {
-
+    public void onClickAlreadyAdded(int position) {
+        ((MainActivity) requireActivity()).setTextViewCity( cityList.get(position));
+        ((MainActivity) requireActivity()).readFile();
     }
 
     @Override

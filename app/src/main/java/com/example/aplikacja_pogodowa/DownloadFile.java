@@ -4,6 +4,7 @@ package com.example.aplikacja_pogodowa;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -55,7 +56,7 @@ public class DownloadFile extends AppCompatActivity {
 
         try {
             address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
+            if (address.size() == 0) {
                 return null;
             }
 
@@ -129,7 +130,11 @@ public class DownloadFile extends AppCompatActivity {
 
     public void start(String city) {
         GeoPoint coder = getLocationFromAddress(city);
-        url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coder.getLatitude() + "&lon=" + coder.getLongitude() + "&lang=pl&exclude=minutely&appid=" + appId;
-        getResponse();
+        if(coder!=null) {
+            url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coder.getLatitude() + "&lon=" + coder.getLongitude() + "&lang=pl&exclude=minutely&appid=" + appId;
+            getResponse();
+        }else{
+            Toast.makeText(context, "Miasto nie istnieje", Toast.LENGTH_SHORT).show();
+        }
     }
 }
