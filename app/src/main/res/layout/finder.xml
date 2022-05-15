@@ -25,7 +25,7 @@
             android:autofillHints="" />
 
         <ImageButton
-            android:id="@+id/starIconFinder"
+            android:id="@+id/addToFavorite"
             android:background="@android:color/transparent"
             android:layout_width="100dp"
             android:layout_height="100dp"

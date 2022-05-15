@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class CityFragment extends Fragment implements ClickListenerFinder {
 
     Bundle bundle;
-
+    RecyclerViewAdapterFinder adapter;
     ArrayList<String> cityList = new ArrayList<>();
 
     @Override
@@ -29,8 +29,9 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewsCity);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        bundle = this.getArguments();
-        recyclerView.setAdapter(new RecyclerViewAdapterFinder(cityList,this));
+        cityList.add("Łódź");
+        adapter = new RecyclerViewAdapterFinder(cityList,this);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -38,20 +39,22 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
     @Override
     public void onClickTrash(int index) {
         cityList.remove(index);
+        adapter.notifyItemRemoved(index+1);
     }
 
     @Override
     public void onClickAlreadyAdded(View v) {
-        System.out.println("ad");
+
     }
 
     @Override
-    public void onClickApply(View v) {
-        System.out.println("ad");
+    public void onClickApply(int position, String city) {
+
     }
 
     @Override
-    public void onClickAddToFavorite(View v) {
-       cityList.add("aaaa");
+    public void onClickAddToFavorite(int position, String city) {
+        cityList.add(city);
+        adapter.notifyItemInserted(position+1);
     }
 }

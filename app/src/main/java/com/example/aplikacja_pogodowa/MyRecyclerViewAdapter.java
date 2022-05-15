@@ -23,13 +23,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public MyRecyclerViewAdapter(WeatherData weatherData, CustomItemClickListener listener) {
         this.weatherData = weatherData;
         mClickListener = listener;
-
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
+
         if(viewType == R.layout.days_row) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.days_row, parent, false);
         }else{

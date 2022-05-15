@@ -97,7 +97,6 @@ public class DownloadFile extends AppCompatActivity {
         weatherData.setLongitude(Double.toString(jsonResponse.getDouble("lon")));
         weatherData.setLatitude(Double.toString(jsonResponse.getDouble("lat")));
         weatherData.setTimeZone(jsonResponse.getString("timezone"));
-        System.out.println(jsonResponse.getJSONObject("current"));
         JSONObject object = jsonResponse.getJSONObject("current");
         weatherData.setHumidity(Integer.toString(object.getInt("humidity")));
         weatherData.setVisibility(Integer.toString(object.getInt("visibility")));

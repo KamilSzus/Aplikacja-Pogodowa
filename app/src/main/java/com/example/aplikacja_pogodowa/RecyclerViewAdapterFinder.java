@@ -32,22 +32,19 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
         }else{
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.finder, parent, false);
         }
-
-        return new ViewHolderFinder(view);
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        int height = view.getMeasuredHeight();
+        return new ViewHolderFinder(view,clickListenerFinder,height);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderFinder holder, int position) {
         if(position==0){
-            holder.apply.setOnClickListener(clickListenerFinder::onClickApply);
             holder.addToFavorite.setImageResource(R.drawable.ulubione);
-            holder.addToFavorite.setOnClickListener(clickListenerFinder::onClickAddToFavorite);
         }else{
-            holder.cityName.setText(cityList.get(position));
+            holder.cityName.setText(cityList.get(cityList.size()-1));
             holder.alreadyAdded.setImageResource(R.drawable.ulubione);
-            holder.alreadyAdded.setOnClickListener(clickListenerFinder::onClickAlreadyAdded);
             holder.deleteFromFavorite.setImageResource(R.drawable.trash);
-            //holder.deleteFromFavorite.setOnClickListener(clickListenerFinder.onClickTrash(position));
         }
     }
 
@@ -62,6 +59,7 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
     }
 
     public static class ViewHolderFinder extends RecyclerView.ViewHolder {
+
         EditText findCity;
         ImageButton addToFavorite;
         Button apply;
@@ -69,15 +67,29 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
         ImageButton deleteFromFavorite;
         ImageButton alreadyAdded;
 
-        public ViewHolderFinder(@NonNull View itemView) {
+        public ViewHolderFinder(@NonNull View itemView, ClickListenerFinder clickListenerFinder, int height) {
             super(itemView);
 
+            itemView.setMinimumHeight(height);
             findCity = itemView.findViewById(R.id.CityFinder);
-            addToFavorite = itemView.findViewById(R.id.starIconFinder);
+            addToFavorite = itemView.findViewById(R.id.addToFavorite);
             apply = itemView.findViewById(R.id.apply);
             cityName = itemView.findViewById(R.id.City);
             deleteFromFavorite = itemView.findViewById(R.id.delete);
             alreadyAdded = itemView.findViewById(R.id.starIcon);
+
+            if(deleteFromFavorite!=null) {
+                deleteFromFavorite.setOnClickListener(v -> clickListenerFinder.onClickTrash(getBindingAdapterPosition()-1));
+            }
+            if(alreadyAdded!=null){
+                alreadyAdded.setOnClickListener(v -> System.out.println("AAAAAA"));
+            }
+            if(addToFavorite!=null){
+                addToFavorite.setOnClickListener(v -> clickListenerFinder.onClickAddToFavorite(getBindingAdapterPosition()-1,findCity.getText().toString()));
+            }
+            if(apply!=null){
+                apply.setOnClickListener(v -> System.out.println("ddddd"));
+            }
 
         }
     }
