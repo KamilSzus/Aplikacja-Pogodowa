@@ -28,7 +28,7 @@ public class DownloadFile extends AppCompatActivity {
     private String url;
     private final Context context;
     private final VolleyCallback callback;
-    private WeatherData weatherData = new WeatherData();
+    private final WeatherData weatherData = new WeatherData();
     private final String appId = "ef6c28ac0f2520bf3fbcca2039cb8799";
     private final String FILE_NAME = "Weather.Json";
 
@@ -48,24 +48,19 @@ public class DownloadFile extends AppCompatActivity {
     }
 
     private GeoPoint getLocationFromAddress(String strAddress) {
-
         Geocoder coder = new Geocoder(context);
         List<Address> address;
         GeoPoint p1 = null;
-
         try {
             address = coder.getFromLocationName(strAddress, 5);
             if (address.size() == 0) {
                 return null;
             }
-
             Address location = address.get(0);
             location.getLatitude();
             location.getLongitude();
-
             p1 = new GeoPoint(location.getLatitude(),
                     location.getLongitude());
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,12 +73,9 @@ public class DownloadFile extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONObject jsonResponse = new JSONObject(response);
-                System.out.println(jsonResponse);
                 SaveFile(jsonResponse);
 
-                readDataFromJson(jsonResponse);
-                readDataFromJsonForDays(jsonResponse);
-                readIconFromJson(jsonResponse);
+                readData(jsonResponse);
                 callback.onSuccessResponse(weatherData);
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
@@ -91,6 +83,12 @@ public class DownloadFile extends AppCompatActivity {
         }, callback::onErrorResponse);
 
         mRequestQueue.add(request);
+    }
+
+    private void readData(JSONObject jsonResponse) throws JSONException {
+        readDataFromJson(jsonResponse);
+        readDataFromJsonForDays(jsonResponse);
+        readIconFromJson(jsonResponse);
     }
 
     private void readDataFromJson(JSONObject jsonResponse) throws JSONException {
@@ -127,13 +125,23 @@ public class DownloadFile extends AppCompatActivity {
         }
     }
 
-    public void start(String city) {
+    public void downloadNewData(String city) {
         GeoPoint coder = getLocationFromAddress(city);
-        if(coder!=null) {
+        if (coder != null) {
+            weatherData.setCityName(city);
             url = "https://api.openweathermap.org/data/2.5/onecall?lat=" + coder.getLatitude() + "&lon=" + coder.getLongitude() + "&lang=pl&exclude=minutely&appid=" + appId;
             getResponse();
-        }else{
+        } else {
             Toast.makeText(context, "Miasto nie istnieje", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public WeatherData setData(String json) {
+        try {
+            readData(new JSONObject(json));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return weatherData;
     }
 }

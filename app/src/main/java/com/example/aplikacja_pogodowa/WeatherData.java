@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class WeatherData implements Serializable {
+    private String cityName;
     private String temperature;
     private String latitude;
     private String longitude;
@@ -21,6 +22,14 @@ public class WeatherData implements Serializable {
     private ArrayList<String> dayList = new ArrayList<>();
     private ArrayList<Bitmap> imageList = new ArrayList<>();
     private ArrayList<String> imageIcon = new ArrayList<>();
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 
     public ArrayList<String> getImageIcon() {
         return imageIcon;

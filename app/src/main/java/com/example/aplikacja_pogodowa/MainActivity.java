@@ -1,10 +1,9 @@
 package com.example.aplikacja_pogodowa;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,12 +17,21 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     private final long oneHour = 3600000;
-    private final int  INTERNET = 3;
+    private final int INTERNET = 3;
     private TextView city;
-
+    private DownloadFile downloadFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,59 +43,65 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
         checkPermission(Manifest.permission.INTERNET, INTERNET);
 
-        addCity.setOnClickListener(v -> replaceFragment(new CityFragment(),null));
-        options.setOnClickListener(v -> replaceFragment(new SettingsFragment(),null));
+        addCity.setOnClickListener(v -> replaceFragment(new CityFragment(), null));
+        options.setOnClickListener(v -> replaceFragment(new SettingsFragment(), null));
+        downloadFile = new DownloadFile(getApplicationContext(), this);
 
-    //    Bundle jsonBundle = new Bundle();
         String result = readFile();
-    //    if (result != null) {
-    //        jsonBundle.putString("JsonWeather", result);
-    //        getSupportFragmentManager().setFragmentResult("JsonWeather", jsonBundle);
-    //    }
+        if (result != null) {
+            WeatherData data = downloadFile.setData(result);
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(Double.parseDouble(data.getLatitude()), Double.parseDouble(data.getLongitude()), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            city.setText(addresses.get(0).getLocality());
+            DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, data);
+            downloadImage.start();
+        }
     }
 
-    public void setTextViewCity(String newName){
+    public void setTextViewCity(String newName) {
         city.setText(newName);
     }
 
     public String readFile() {
-        //  try {
-        //      File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
-        //      if (file.exists()) {
-        //          Date lastModDate = new Date(file.lastModified());
-        //          if (lastModDate.getTime() + oneHour < System.currentTimeMillis()) {
-//
-        //              FileInputStream fileInputStream = context.openFileInput("Weather.Json");
-//
-        //              InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-        //              BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        //              StringBuilder stringBuilder = new StringBuilder();
-//
-        //              bufferedReader.lines().forEach(stringBuilder::append);
-//
-        //              return stringBuilder.toString();
-        //          }
-        //      }
-        //  } catch (IOException fileNotFound) {
-        //      createFile();
-        //      return null;
-        //  }
-        //  createFile();
-        //  return null;
+        try {
+            File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
+            if (file.exists()) {
+                System.out.println(file.lastModified() + oneHour);
+                System.out.println(System.currentTimeMillis());
+                if (file.lastModified() + oneHour > System.currentTimeMillis()) {
+
+                    FileInputStream fileInputStream = getApplicationContext().openFileInput("Weather.Json");
+
+                    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    bufferedReader.lines().forEach(stringBuilder::append);
+
+                    return stringBuilder.toString();
+                }
+            }
+        } catch (IOException fileNotFound) {
+            createFile();
+            return null;
+        }
         createFile();
         return null;
     }
 
-    private void createFile() {
-        DownloadFile downloadFile = new DownloadFile(getApplicationContext(),this);
-        downloadFile.start(city.getText().toString());
+    public void createFile() {
+        downloadFile.downloadNewData(city.getText().toString());
     }
 
     public void checkPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[] { permission }, requestCode);
-        }
-        else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+        } else {
             Toast.makeText(MainActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
         }
     }
@@ -118,14 +132,14 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     @Override
     public void onSuccessResponse(WeatherData result) {
-        DownloadImage downloadImage = new DownloadImage(getApplicationContext(),this,result);
+        DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, result);
         downloadImage.start();
     }
 
     private void startNewFragment(Fragment dayFragment, WeatherData result) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("WeatherData",result);
-        replaceFragment(dayFragment,bundle);
+        bundle.putSerializable("WeatherData", result);
+        replaceFragment(dayFragment, bundle);
     }
 
     @Override
@@ -135,11 +149,11 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     @Override
     public void onSuccessResponseImage(WeatherData result) {
-        startNewFragment(new DayFragment(),result);
+        startNewFragment(new DayFragment(), result);
     }
 
     @Override
     public void onErrorResponseImage(VolleyError error) {
-        System.out.println(error);
+        error.printStackTrace();
     }
 }

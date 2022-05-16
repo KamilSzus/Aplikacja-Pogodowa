@@ -43,25 +43,24 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
 
     public void readFile() {
         try {
-            FileInputStream fileInputStream = ((MainActivity) requireActivity()).getApplicationContext().openFileInput("City.txt");
+            FileInputStream fileInputStream = requireActivity().getApplicationContext().openFileInput("City.txt");
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            System.out.println(bufferedReader);
             bufferedReader.lines().forEach(cityList::add);
         } catch (IOException ignored) {
-            new File(((MainActivity) requireActivity()).getApplicationContext().getFilesDir(), "City.txt");
+            new File(requireActivity().getApplicationContext().getFilesDir(), "City.txt");
         }
     }
 
     private void loadNewFragment(String city){
         updateCityFile();
         ((MainActivity) requireActivity()).setTextViewCity(city);
-        ((MainActivity) requireActivity()).readFile();
+        ((MainActivity) requireActivity()).createFile();
     }
 
     private void updateCityFile() {
         try {
-            FileOutputStream outputStream = ((MainActivity) requireActivity()).getApplicationContext().openFileOutput("City.txt", Context.MODE_PRIVATE);
+            FileOutputStream outputStream = requireActivity().getApplicationContext().openFileOutput("City.txt", Context.MODE_PRIVATE);
             cityList.forEach(s -> {
                 try {
                     s=s+"\n";
