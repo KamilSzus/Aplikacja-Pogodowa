@@ -1,6 +1,5 @@
 package com.example.aplikacja_pogodowa;
 
-
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -74,9 +73,10 @@ public class DownloadFile extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONObject jsonResponse = new JSONObject(response);
-                SaveFile(jsonResponse);
 
+                SaveFile(jsonResponse);
                 readData(jsonResponse);
+
                 callback.onSuccessResponse(weatherData);
             } catch (JSONException | IOException e) {
                 e.printStackTrace();

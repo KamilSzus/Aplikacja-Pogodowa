@@ -31,6 +31,9 @@ public class DayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         NetworkImageView weatherIcon = view.findViewById(R.id.WeatherIcon);
         Button buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
+        Button refresh = view.findViewById(R.id.refresh);
+
+        refresh.setOnClickListener(v ->((MainActivity) requireActivity()).createFile());
 
         buttonMoreDetails.setOnClickListener(v -> {
             Fragment fragment = new MoreDetailsAboutDay();
@@ -59,8 +62,6 @@ public class DayFragment extends Fragment {
 
             weatherIcon.setDefaultImageBitmap(weatherData.getImageList().get(0));
         }
-
-
 
         return view;
     }
