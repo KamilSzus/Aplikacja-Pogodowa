@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     private final long oneHour = 3600000;
     private final int INTERNET = 3;
     private TextView city;
-    private DownloadFile downloadFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,19 +43,11 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
         addCity.setOnClickListener(v -> replaceFragment(new CityFragment(), null));
         options.setOnClickListener(v -> replaceFragment(new SettingsFragment(), null));
-        downloadFile = new DownloadFile(getApplicationContext(), this);
-
+        DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         String result = readFile();
         if (result != null) {
             WeatherData data = downloadFile.setData(result);
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = null;
-            try {
-                addresses = geocoder.getFromLocation(Double.parseDouble(data.getLatitude()), Double.parseDouble(data.getLongitude()), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            city.setText(addresses.get(0).getLocality());
+            city.setText(data.getCityName());
             DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, data);
             downloadImage.start();
         }
@@ -71,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         try {
             File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
             if (file.exists()) {
-                System.out.println(file.lastModified() + oneHour);
-                System.out.println(System.currentTimeMillis());
                 if (file.lastModified() + oneHour > System.currentTimeMillis()) {
 
                     FileInputStream fileInputStream = getApplicationContext().openFileInput("Weather.Json");
@@ -95,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     }
 
     public void createFile() {
+        DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         downloadFile.downloadNewData(city.getText().toString());
     }
 

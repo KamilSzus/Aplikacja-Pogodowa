@@ -38,7 +38,8 @@ public class DownloadFile extends AppCompatActivity {
         this.callback = callback;
     }
 
-    private void SaveFile(JSONObject jsonResponse) throws IOException {
+    private void SaveFile(JSONObject jsonResponse) throws IOException, JSONException {
+        jsonResponse.put("city",weatherData.getCityName());
         File jsonFile = new File(context.getFilesDir(), FILE_NAME);
         FileWriter fileWriter = new FileWriter(jsonFile);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -138,7 +139,9 @@ public class DownloadFile extends AppCompatActivity {
 
     public WeatherData setData(String json) {
         try {
-            readData(new JSONObject(json));
+            JSONObject object = new JSONObject(json);
+            readData(object);
+            weatherData.setCityName(object.getString("city"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

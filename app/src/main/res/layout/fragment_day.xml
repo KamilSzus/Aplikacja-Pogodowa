@@ -93,14 +93,26 @@
                     android:text=""
                     android:textSize="20sp" />
             </TableRow>
-        </TableLayout>
 
-        <Button
-            android:id="@+id/buttonMoreDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="60dp"
-            android:text="@string/more_details_about_day" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent">
+
+                <Button
+                    android:id="@+id/buttonMoreDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/more_details_about_day" />
+
+                <Button
+                    android:id="@+id/refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/refresh" />
+            </TableRow>
+        </TableLayout>
     </RelativeLayout>
 </RelativeLayout>
