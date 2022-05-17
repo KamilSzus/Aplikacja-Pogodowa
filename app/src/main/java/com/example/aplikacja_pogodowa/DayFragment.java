@@ -13,27 +13,24 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-public class DayFragment extends Fragment {
+public class DayFragment extends Fragment implements VolleyCallback {
 
     private GestureDetector mDetector;
     private Bundle bundle;
+    private View view;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_day, container, false);
-        NetworkImageView weatherIcon = view.findViewById(R.id.WeatherIcon);
+        this.view = inflater.inflate(R.layout.fragment_day, container, false);
         Button buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
         Button refresh = view.findViewById(R.id.refresh);
 
-        refresh.setOnClickListener(v ->((MainActivity) requireActivity()).createFile());
+        refresh.setOnClickListener(v ->createFile());
 
         buttonMoreDetails.setOnClickListener(v -> {
             Fragment fragment = new MoreDetailsAboutDay();
@@ -44,23 +41,12 @@ public class DayFragment extends Fragment {
                     .setReorderingAllowed(true)
                     .commit();
         });
-
         gesture(view);
-
         bundle = this.getArguments();
         if (bundle != null) {
             WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
-
-            TextView temperatureData = view.findViewById(R.id.TemperatureData);
-            temperatureData.setText(weatherData.getTemperature());
-
-            TextView latData = view.findViewById(R.id.LatitudeData);
-            latData.setText(weatherData.getLatitude());
-
-            TextView lonData = view.findViewById(R.id.LongitudeData);
-            lonData.setText(weatherData.getLongitude());
-
-            weatherIcon.setDefaultImageBitmap(weatherData.getImageList().get(0));
+            refreshData(weatherData);
+            refreshImage(weatherData);
         }
 
         return view;
@@ -108,7 +94,50 @@ public class DayFragment extends Fragment {
         public boolean onTouch(View v, MotionEvent event) {
 
             return mDetector.onTouchEvent(event);
-
         }
     };
+
+    public void createFile() {
+        DownloadFile downloadFile = new DownloadFile(requireActivity().getApplicationContext(), this);
+        downloadFile.downloadNewData(((MainActivity) requireActivity()).getTextViewCity());
+    }
+
+    @Override
+    public void onSuccessResponse(WeatherData result) {
+        refreshData(result);
+        DownloadImage downloadImage = new DownloadImage(requireActivity().getApplicationContext(), this,result);
+        downloadImage.start();
+    }
+
+    private void refreshData(WeatherData result) {
+        TextView temperatureData = view.findViewById(R.id.TemperatureData);
+        temperatureData.setText(result.getTemperature());
+
+        TextView latData = view.findViewById(R.id.LatitudeData);
+        latData.setText(result.getLatitude());
+
+        TextView lonData = view.findViewById(R.id.LongitudeData);
+        lonData.setText(result.getLongitude());
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        error.printStackTrace();
+    }
+
+    @Override
+    public void onSuccessResponseImage(WeatherData bitmap) {
+        refreshImage(bitmap);
+    }
+
+    private void refreshImage(WeatherData bitmap) {
+        NetworkImageView weatherIcon = view.findViewById(R.id.WeatherIcon);
+
+        weatherIcon.setDefaultImageBitmap(bitmap.getImageList().get(0));
+    }
+
+    @Override
+    public void onErrorResponseImage(VolleyError error) {
+        error.printStackTrace();
+    }
 }

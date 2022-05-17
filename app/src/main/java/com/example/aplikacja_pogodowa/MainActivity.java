@@ -2,8 +2,6 @@ package com.example.aplikacja_pogodowa;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,8 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
@@ -55,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     public void setTextViewCity(String newName) {
         city.setText(newName);
+    }
+
+    public String getTextViewCity() {
+        return city.getText().toString();
     }
 
     public String readFile() {
