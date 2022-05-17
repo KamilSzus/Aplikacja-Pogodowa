@@ -1,8 +1,11 @@
 package com.example.aplikacja_pogodowa;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.Preference;
 
 import com.android.volley.VolleyError;
 
@@ -32,13 +36,11 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button addCity = findViewById(R.id.AddCity);
-        Button options = findViewById(R.id.Options);
         city = findViewById(R.id.City);
 
         checkPermission(Manifest.permission.INTERNET, INTERNET);
 
         addCity.setOnClickListener(v -> replaceFragment(new CityFragment(), null));
-        options.setOnClickListener(v -> replaceFragment(new SettingsFragment(), null));
         DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         String result = readFile();
         if (result != null) {
@@ -144,5 +146,20 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     @Override
     public void onErrorResponseImage(VolleyError error) {
         error.printStackTrace();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.weather_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.settings){
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

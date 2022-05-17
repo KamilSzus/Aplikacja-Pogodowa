@@ -37,4 +37,5 @@
     <string name="usun">Usun</string>
     <string name="podaj_nazwe_miasta">Podaj nazwe miasta</string>
     <string name="refresh">Refresh</string>
+    <string name="settings">Settings</string>
 </resources>
