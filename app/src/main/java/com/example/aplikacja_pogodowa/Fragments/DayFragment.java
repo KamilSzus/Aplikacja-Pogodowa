@@ -73,7 +73,6 @@ public class DayFragment extends Fragment implements VolleyCallback {
         mDetector = new GestureDetector(getActivity(), new SimpleOnGestureListener() {
             @Override
             public boolean onDown(MotionEvent event) {
-
                 return true;
             }
 
@@ -108,7 +107,6 @@ public class DayFragment extends Fragment implements VolleyCallback {
     }
 
     View.OnTouchListener touchListener = new View.OnTouchListener() {
-        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             return mDetector.onTouchEvent(event);
@@ -139,7 +137,7 @@ public class DayFragment extends Fragment implements VolleyCallback {
         latData.setText(df.format(result.getLatitude()));
 
         TextView lonData = view.findViewById(R.id.LongitudeData);
-        lonData.setText(result.getLongitude().toString());
+        lonData.setText(df.format(result.getLongitude()));
     }
 
     @Override

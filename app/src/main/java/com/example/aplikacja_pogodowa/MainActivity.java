@@ -37,12 +37,10 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     private TextView city;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button addCity = findViewById(R.id.AddCity);
         city = findViewById(R.id.City);
-
         checkPermission(Manifest.permission.INTERNET, INTERNET);
 
         addCity.setOnClickListener(v -> replaceFragment(new CityFragment(), null));
@@ -69,15 +67,11 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
             File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
             if (file.exists()) {
                 if (file.lastModified() + oneHour > System.currentTimeMillis()) {
-
                     FileInputStream fileInputStream = getApplicationContext().openFileInput("Weather.Json");
-
                     InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     StringBuilder stringBuilder = new StringBuilder();
-
                     bufferedReader.lines().forEach(stringBuilder::append);
-
                     return stringBuilder.toString();
                 }
             }
