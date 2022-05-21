@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.MoreDays;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.aplikacja_pogodowa.Download.WeatherData;
+import com.example.aplikacja_pogodowa.Fragments.DayFragment;
+import com.example.aplikacja_pogodowa.MoreDays.MyRecyclerViewAdapter;
+import com.example.aplikacja_pogodowa.R;
 
 public class DaysFragment extends Fragment{
 

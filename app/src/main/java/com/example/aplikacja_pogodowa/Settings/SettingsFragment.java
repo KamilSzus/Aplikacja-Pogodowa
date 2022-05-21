@@ -1,8 +1,10 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Settings;
 
 import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.example.aplikacja_pogodowa.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 

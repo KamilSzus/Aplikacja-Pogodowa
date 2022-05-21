@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.aplikacja_pogodowa.Download.WeatherData;
+import com.example.aplikacja_pogodowa.Fragments.DayFragment;
+import com.example.aplikacja_pogodowa.R;
 
 import java.time.Instant;
 import java.time.ZoneId;

@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -15,6 +15,13 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
+import com.example.aplikacja_pogodowa.Download.DownloadFile;
+import com.example.aplikacja_pogodowa.Download.DownloadImage;
+import com.example.aplikacja_pogodowa.Download.VolleyCallback;
+import com.example.aplikacja_pogodowa.Download.WeatherData;
+import com.example.aplikacja_pogodowa.MainActivity;
+import com.example.aplikacja_pogodowa.MoreDays.DaysFragment;
+import com.example.aplikacja_pogodowa.R;
 
 import java.text.DecimalFormat;
 

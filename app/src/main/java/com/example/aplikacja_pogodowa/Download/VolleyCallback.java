@@ -1,6 +1,7 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Download;
 
 import com.android.volley.VolleyError;
+import com.example.aplikacja_pogodowa.Download.WeatherData;
 
 public interface VolleyCallback {
     void onSuccessResponse(WeatherData result);

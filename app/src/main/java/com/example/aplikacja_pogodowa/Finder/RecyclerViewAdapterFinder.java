@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Finder;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.aplikacja_pogodowa.R;
 
 import java.util.ArrayList;
 

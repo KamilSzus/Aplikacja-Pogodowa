@@ -4,7 +4,7 @@
     android:id="@+id/dayFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DayFragment">
+    tools:context=".Fragments.DayFragment">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/WeatherIcon"

@@ -1,4 +1,6 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Fragments;
+
+import com.example.aplikacja_pogodowa.Download.WeatherData;
 
 import java.util.ArrayList;
 

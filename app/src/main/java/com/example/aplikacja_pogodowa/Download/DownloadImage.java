@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Download;
 
 import android.content.Context;
 import android.graphics.Bitmap;

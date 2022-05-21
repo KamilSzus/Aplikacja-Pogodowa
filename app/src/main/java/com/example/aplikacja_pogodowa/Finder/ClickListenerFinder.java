@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Finder;
 
 public interface ClickListenerFinder {
     void onClickTrash(int position);

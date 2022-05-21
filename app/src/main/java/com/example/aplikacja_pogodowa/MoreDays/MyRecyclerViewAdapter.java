@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.MoreDays;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.example.aplikacja_pogodowa.Download.WeatherData;
+import com.example.aplikacja_pogodowa.R;
 
 import java.text.DecimalFormat;
 import java.time.Instant;

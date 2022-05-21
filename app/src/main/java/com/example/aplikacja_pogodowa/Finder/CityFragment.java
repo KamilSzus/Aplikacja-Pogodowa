@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.Finder;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,15 +10,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONObject;
+import com.example.aplikacja_pogodowa.Finder.ClickListenerFinder;
+import com.example.aplikacja_pogodowa.Finder.RecyclerViewAdapterFinder;
+import com.example.aplikacja_pogodowa.MainActivity;
+import com.example.aplikacja_pogodowa.R;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.Serializable;
+import com.example.aplikacja_pogodowa.Settings.SettingsFragment;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity{
@@ -28,7 +28,6 @@ public class SettingsActivity extends AppCompatActivity{
                     .beginTransaction()
                     .replace(R.id.idFrameLayout, new SettingsFragment())
                     .commit();
-
         }
 
     }

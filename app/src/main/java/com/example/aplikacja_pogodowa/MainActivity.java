@@ -15,9 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.preference.Preference;
 
 import com.android.volley.VolleyError;
+import com.example.aplikacja_pogodowa.Download.DownloadFile;
+import com.example.aplikacja_pogodowa.Download.DownloadImage;
+import com.example.aplikacja_pogodowa.Download.VolleyCallback;
+import com.example.aplikacja_pogodowa.Download.WeatherData;
+import com.example.aplikacja_pogodowa.Finder.CityFragment;
+import com.example.aplikacja_pogodowa.Fragments.DayFragment;
 
 import java.io.BufferedReader;
 import java.io.File;
