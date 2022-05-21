@@ -7,21 +7,30 @@ import java.util.ArrayList;
 
 public class WeatherData implements Serializable {
     private String cityName;
-    private String temperature;
-    private String latitude;
-    private String longitude;
+    private Double temperature;
+    private Double latitude;
+    private Double longitude;
     private String windDirection;
     private String windStrength;
-    private String sunrise;
-    private String sunset;
-    private String humidity;
-    private String visibility;
+    private Integer sunrise;
+    private Integer sunset;
+    private Integer humidity;
+    private Integer visibility;
     private String timeZone;
+    private String units;
 
-    private ArrayList<String> temperatureList = new ArrayList<>();
-    private ArrayList<String> dayList = new ArrayList<>();
+    private ArrayList<Double> temperatureList = new ArrayList<>();
+    private ArrayList<Integer> dayList = new ArrayList<>();
     private ArrayList<Bitmap> imageList = new ArrayList<>();
     private ArrayList<String> imageIcon = new ArrayList<>();
+
+    public String getUnits() {
+        return units;
+    }
+
+    public void setUnits(String units) {
+        this.units = units;
+    }
 
     public String getCityName() {
         return cityName;
@@ -47,19 +56,19 @@ public class WeatherData implements Serializable {
         this.imageList = imageList;
     }
 
-    public ArrayList<String> getTemperatureList() {
+    public ArrayList<Double> getTemperatureList() {
         return temperatureList;
     }
 
-    public void setTemperatureList(ArrayList<String> temperatureList) {
+    public void setTemperatureList(ArrayList<Double> temperatureList) {
         this.temperatureList = temperatureList;
     }
 
-    public ArrayList<String> getDayList() {
+    public ArrayList<Integer> getDayList() {
         return dayList;
     }
 
-    public void setDayList(ArrayList<String> dayList) {
+    public void setDayList(ArrayList<Integer> dayList) {
         this.dayList = dayList;
     }
 
@@ -71,27 +80,27 @@ public class WeatherData implements Serializable {
         this.timeZone = timeZone;
     }
 
-    public String getTemperature() {
+    public Double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
+    public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -111,35 +120,35 @@ public class WeatherData implements Serializable {
         this.windStrength = windStrength;
     }
 
-    public String getSunrise() {
+    public Integer getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(String sunrise) {
+    public void setSunrise(Integer sunrise) {
         this.sunrise = sunrise;
     }
 
-    public String getSunset() {
+    public Integer getSunset() {
         return sunset;
     }
 
-    public void setSunset(String sunset) {
+    public void setSunset(Integer sunset) {
         this.sunset = sunset;
     }
 
-    public String getHumidity() {
+    public Integer getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(String humidity) {
+    public void setHumidity(Integer humidity) {
         this.humidity = humidity;
     }
 
-    public String getVisibility() {
+    public Integer getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(String visibility) {
+    public void setVisibility(Integer visibility) {
         this.visibility = visibility;
     }
 }

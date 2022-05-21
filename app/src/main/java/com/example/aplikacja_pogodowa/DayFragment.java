@@ -16,11 +16,13 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.text.DecimalFormat;
+
 public class DayFragment extends Fragment implements VolleyCallback {
 
     private GestureDetector mDetector;
-    private Bundle bundle;
     private View view;
+    private WeatherData weatherData;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -29,11 +31,14 @@ public class DayFragment extends Fragment implements VolleyCallback {
         this.view = inflater.inflate(R.layout.fragment_day, container, false);
         Button buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
         Button refresh = view.findViewById(R.id.refresh);
-
+        Button units = view.findViewById(R.id.changeUnits);
+        units.setOnClickListener(v -> changeUnits());
         refresh.setOnClickListener(v ->createFile());
 
         buttonMoreDetails.setOnClickListener(v -> {
             Fragment fragment = new MoreDetailsAboutDay();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("WeatherData" ,weatherData);
             fragment.setArguments(bundle);
             getParentFragmentManager()
                     .beginTransaction()
@@ -42,14 +47,19 @@ public class DayFragment extends Fragment implements VolleyCallback {
                     .commit();
         });
         gesture(view);
-        bundle = this.getArguments();
-        if (bundle != null) {
-            WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
+        if (this.getArguments() != null) {
+            weatherData = (WeatherData) this.getArguments().getSerializable("WeatherData");
             refreshData(weatherData);
             refreshImage(weatherData);
         }
 
         return view;
+    }
+
+    private void changeUnits(){
+        ChangeUnits units= new ChangeUnits(weatherData);
+        units.run();
+        refreshData(weatherData);
     }
 
     private void gesture(View view) {
@@ -70,6 +80,8 @@ public class DayFragment extends Fragment implements VolleyCallback {
                     if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffY > 0) {
                             Fragment fragment = new DaysFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("WeatherData" ,weatherData);
                             fragment.setArguments(bundle);
                             getParentFragmentManager()
                                     .beginTransaction()
@@ -110,14 +122,15 @@ public class DayFragment extends Fragment implements VolleyCallback {
     }
 
     private void refreshData(WeatherData result) {
+        DecimalFormat df = new DecimalFormat("#.##");
         TextView temperatureData = view.findViewById(R.id.TemperatureData);
-        temperatureData.setText(result.getTemperature());
+        temperatureData.setText(df.format(result.getTemperature()));
 
         TextView latData = view.findViewById(R.id.LatitudeData);
-        latData.setText(result.getLatitude());
+        latData.setText(df.format(result.getLatitude()));
 
         TextView lonData = view.findViewById(R.id.LongitudeData);
-        lonData.setText(result.getLongitude());
+        lonData.setText(result.getLongitude().toString());
     }
 
     @Override
@@ -132,7 +145,6 @@ public class DayFragment extends Fragment implements VolleyCallback {
 
     private void refreshImage(WeatherData bitmap) {
         NetworkImageView weatherIcon = view.findViewById(R.id.WeatherIcon);
-
         weatherIcon.setDefaultImageBitmap(bitmap.getImageList().get(0));
     }
 

@@ -8,22 +8,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class SettingsActivity extends AppCompatActivity implements Serializable {
+public class SettingsActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        savedInstanceState.clear();
+        if(savedInstanceState!=null)
+            savedInstanceState.clear();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
 
         if (findViewById(R.id.idFrameLayout) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
             ActionBar actionBar = getSupportActionBar();
-            if(actionBar!=null){
+            if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
             getSupportFragmentManager()

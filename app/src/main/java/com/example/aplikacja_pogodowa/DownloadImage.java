@@ -8,6 +8,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.List;
+
 public class DownloadImage {
 
     private String url = "https://openweathermap.org/img/wn/";
@@ -22,21 +24,25 @@ public class DownloadImage {
         weatherData = data;
     }
 
-    public void getResponse(String imageId) {
-        String urlForImage = url + imageId + "@2x.png";
-        System.out.println(urlForImage);
-        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-        ImageRequest request = new ImageRequest(urlForImage, response -> {
-            weatherData.getImageList().add(response);
-            System.out.println(urlForImage);
-            callback.onSuccessResponseImage(weatherData);
-        }, 0, 0, ImageView.ScaleType.CENTER, Bitmap.Config.RGB_565,
-                callback::onErrorResponseImage);
-
-        mRequestQueue.add(request);
+    public void start(){
+        getResponse(weatherData.getImageIcon());
     }
 
-    public void start() {
-        weatherData.getImageIcon().forEach(this::getResponse);
+    public void getResponse(List<String> bitmapList) {
+        bitmapList.forEach(icon -> {
+            String urlForImage = url + icon + "@2x.png";
+            System.out.println(urlForImage);
+            RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+            ImageRequest request = new ImageRequest(urlForImage, response -> {
+                weatherData.getImageList().add(response);
+                System.out.println(urlForImage);
+                if(weatherData.getImageList().size()==weatherData.getImageIcon().size()){
+                    callback.onSuccessResponseImage(weatherData);
+                }
+            }, 0, 0, ImageView.ScaleType.CENTER, Bitmap.Config.RGB_565,
+                    callback::onErrorResponseImage);
+            mRequestQueue.add(request);
+
+        });
     }
 }

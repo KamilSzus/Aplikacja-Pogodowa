@@ -1,5 +1,6 @@
 package com.example.aplikacja_pogodowa;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class MoreDetailsAboutDay extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more_details_about_day, container, false);
@@ -51,16 +53,16 @@ public class MoreDetailsAboutDay extends Fragment {
             windStrength.setText(weatherData.getWindStrength());
 
             TextView humidity = view.findViewById(R.id.Humidity);
-            humidity.setText(weatherData.getHumidity());
+            humidity.setText(weatherData.getHumidity().toString());
 
             TextView visibility = view.findViewById(R.id.Visibility);
-            visibility.setText(weatherData.getVisibility());
+            visibility.setText(weatherData.getVisibility().toString());
 
             TextView sunrise = view.findViewById(R.id.Sunrise);
-            sunrise.setText(convertTime(weatherData.getSunrise(), weatherData.getTimeZone()));
+            sunrise.setText(convertTime(weatherData.getSunrise().toString(), weatherData.getTimeZone()));
 
             TextView sunset = view.findViewById(R.id.Sunset);
-            sunset.setText(convertTime(weatherData.getSunset(), weatherData.getTimeZone()));
+            sunset.setText(convertTime(weatherData.getSunset().toString(), weatherData.getTimeZone()));
         }
         return view;
     }

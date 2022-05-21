@@ -5,8 +5,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
@@ -23,7 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class DownloadFile extends AppCompatActivity {
+public class DownloadFile {
     private String url;
     private final Context context;
     private final VolleyCallback callback;
@@ -87,30 +85,31 @@ public class DownloadFile extends AppCompatActivity {
     }
 
     private void readData(JSONObject jsonResponse) throws JSONException {
+        weatherData.setUnits("Unnatural");
         readDataFromJson(jsonResponse);
         readDataFromJsonForDays(jsonResponse);
         readIconFromJson(jsonResponse);
     }
 
     private void readDataFromJson(JSONObject jsonResponse) throws JSONException {
-        weatherData.setLongitude(Double.toString(jsonResponse.getDouble("lon")));
-        weatherData.setLatitude(Double.toString(jsonResponse.getDouble("lat")));
+        weatherData.setLongitude(jsonResponse.getDouble("lon"));
+        weatherData.setLatitude(jsonResponse.getDouble("lat"));
         weatherData.setTimeZone(jsonResponse.getString("timezone"));
         JSONObject object = jsonResponse.getJSONObject("current");
-        weatherData.setHumidity(Integer.toString(object.getInt("humidity")));
-        weatherData.setVisibility(Integer.toString(object.getInt("visibility")));
-        weatherData.setSunrise(Integer.toString(object.getInt("sunrise")));
-        weatherData.setSunset(Integer.toString(object.getInt("sunset")));
+        weatherData.setHumidity(object.getInt("humidity"));
+        weatherData.setVisibility(object.getInt("visibility"));
+        weatherData.setSunrise(object.getInt("sunrise"));
+        weatherData.setSunset(object.getInt("sunset"));
         weatherData.setWindStrength(Double.toString(object.getDouble("wind_speed")));
-        weatherData.setTemperature(Double.toString(object.getDouble("temp")));
+        weatherData.setTemperature(object.getDouble("temp"));
     }
 
     private void readDataFromJsonForDays(JSONObject jsonResponse) throws JSONException {
         JSONArray jsonArray = jsonResponse.getJSONArray("daily");
         for (int i = 1; i < jsonArray.length(); i++) {
-            weatherData.getDayList().add(Integer.toString(jsonArray.getJSONObject(i)
-                    .getInt("dt")));
-            weatherData.getTemperatureList().add(Double.toString(jsonArray.getJSONObject(i)
+            weatherData.getDayList().add(jsonArray.getJSONObject(i)
+                    .getInt("dt"));
+            weatherData.getTemperatureList().add((jsonArray.getJSONObject(i)
                     .getJSONObject("temp")
                     .getDouble("day")));
         }
