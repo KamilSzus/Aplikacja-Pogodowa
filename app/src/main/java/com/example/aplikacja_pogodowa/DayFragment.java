@@ -104,7 +104,6 @@ public class DayFragment extends Fragment implements VolleyCallback {
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
             return mDetector.onTouchEvent(event);
         }
     };
@@ -125,6 +124,9 @@ public class DayFragment extends Fragment implements VolleyCallback {
         DecimalFormat df = new DecimalFormat("#.##");
         TextView temperatureData = view.findViewById(R.id.TemperatureData);
         temperatureData.setText(df.format(result.getTemperature()));
+
+        TextView weatherText = view.findViewById(R.id.Weather);
+        weatherText.setText(weatherData.getWeather());
 
         TextView latData = view.findViewById(R.id.LatitudeData);
         latData.setText(df.format(result.getLatitude()));

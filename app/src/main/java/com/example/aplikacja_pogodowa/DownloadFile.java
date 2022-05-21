@@ -41,7 +41,6 @@ public class DownloadFile {
         FileWriter fileWriter = new FileWriter(jsonFile);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write(jsonResponse.toString());
-        System.out.println(jsonResponse);
         bufferedWriter.close();
     }
 
@@ -117,6 +116,11 @@ public class DownloadFile {
 
     private void readIconFromJson(JSONObject jsonResponse) throws JSONException {
         JSONArray jsonArray = jsonResponse.getJSONArray("daily");
+        weatherData.setWeather(jsonArray.getJSONObject(0)
+                .getJSONArray("weather")
+                .getJSONObject(0)
+                .getString("description"));
+
         for (int i = 0; i < jsonArray.length(); i++) {
             weatherData.getImageIcon().add(jsonArray.getJSONObject(i)
                     .getJSONArray("weather")

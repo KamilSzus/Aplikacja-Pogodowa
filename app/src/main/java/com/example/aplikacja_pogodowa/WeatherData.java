@@ -18,11 +18,20 @@ public class WeatherData implements Serializable {
     private Integer visibility;
     private String timeZone;
     private String units;
+    private String Weather;
 
     private ArrayList<Double> temperatureList = new ArrayList<>();
     private ArrayList<Integer> dayList = new ArrayList<>();
     private ArrayList<Bitmap> imageList = new ArrayList<>();
     private ArrayList<String> imageIcon = new ArrayList<>();
+
+    public String getWeather() {
+        return Weather;
+    }
+
+    public void setWeather(String weather) {
+        Weather = weather;
+    }
 
     public String getUnits() {
         return units;
