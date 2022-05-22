@@ -25,14 +25,14 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
-            case 3:
-                return new CityFragment();
             case 1:
-                return new DaysFragment();
+                return new DayFragment();
             case 2:
+                return new DaysFragment();
+            case 3:
                 return new MoreDetailsAboutDay();
             default:
-                return new DayFragment();
+                return new CityFragment();
         }
     }
 }

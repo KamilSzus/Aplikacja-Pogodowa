@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     private final int INTERNET = 3;
     private TextView city;
     public Bundle bundle;
+    private WeatherData weatherData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +43,6 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         setContentView(R.layout.activity_main);
         city = findViewById(R.id.City);
         checkPermission(Manifest.permission.INTERNET, INTERNET);
-
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
-        viewPager2.setAdapter(adapter);
-
-        new TabLayoutMediator(tabLayout, viewPager2,
-                (tab, position) -> tab.setText("Tab " + (position + 1))).attach();
 
         DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         String result = readFile();
@@ -60,6 +52,16 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
             DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, data);
             downloadImage.start();
         }
+
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        viewPager2.setAdapter(adapter);
+        //viewPager2.registerOnPageChangeCallback();
+
+        new TabLayoutMediator(tabLayout, viewPager2,
+                (tab, position) -> tab.setText("Tab " + (position + 1))).attach();
     }
 
     public void setTextViewCity(String newName) {
@@ -68,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     public String getTextViewCity() {
         return city.getText().toString();
+    }
+
+    public WeatherData getWeatherData(){
+        return weatherData;
     }
 
     public String readFile() {
@@ -124,12 +130,6 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, result);
         downloadImage.start();
     }
-
-    private void startNewFragment(WeatherData result) {
-        bundle = new Bundle();
-        bundle.putSerializable("WeatherData", result);
-    }
-
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     @Override
     public void onSuccessResponseImage(WeatherData result) {
-        startNewFragment(result);
+        weatherData = result;
     }
 
     @Override

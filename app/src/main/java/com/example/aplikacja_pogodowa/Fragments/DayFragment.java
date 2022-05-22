@@ -38,10 +38,10 @@ public class DayFragment extends Fragment implements VolleyCallback {
         Button refresh = view.findViewById(R.id.refresh);
         Button units = view.findViewById(R.id.changeUnits);
         units.setOnClickListener(v -> changeUnits());
-        refresh.setOnClickListener(v ->createFile());
+        refresh.setOnClickListener(v -> createFile());
 
-        if (this.getArguments() != null) {
-            weatherData = (WeatherData) this.getArguments().getSerializable("WeatherData");
+        if (((MainActivity) requireActivity()).getWeatherData() != null) {
+            weatherData = ((MainActivity) requireActivity()).getWeatherData();
             refreshData(weatherData);
             refreshImage(weatherData);
         }
@@ -49,11 +49,12 @@ public class DayFragment extends Fragment implements VolleyCallback {
         return view;
     }
 
-    private void changeUnits(){
-        ChangeUnits units= new ChangeUnits(weatherData);
+    private void changeUnits() {
+        ChangeUnits units = new ChangeUnits(weatherData);
         units.run();
         refreshData(weatherData);
     }
+
     public void createFile() {
         DownloadFile downloadFile = new DownloadFile(requireActivity().getApplicationContext(), this);
         downloadFile.downloadNewData(((MainActivity) requireActivity()).getTextViewCity());
@@ -62,12 +63,13 @@ public class DayFragment extends Fragment implements VolleyCallback {
     @Override
     public void onSuccessResponse(WeatherData result) {
         refreshData(result);
-        DownloadImage downloadImage = new DownloadImage(requireActivity().getApplicationContext(), this,result);
+        DownloadImage downloadImage = new DownloadImage(requireActivity().getApplicationContext(), this, result);
         downloadImage.start();
     }
 
     private void refreshData(WeatherData result) {
         DecimalFormat df = new DecimalFormat("#.##");
+        weatherData = result;
         TextView temperatureData = view.findViewById(R.id.TemperatureData);
         temperatureData.setText(df.format(result.getTemperature()));
 

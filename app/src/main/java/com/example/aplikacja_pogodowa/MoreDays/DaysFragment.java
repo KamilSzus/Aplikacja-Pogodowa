@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aplikacja_pogodowa.Download.WeatherData;
 import com.example.aplikacja_pogodowa.Fragments.DayFragment;
+import com.example.aplikacja_pogodowa.MainActivity;
 import com.example.aplikacja_pogodowa.MoreDays.MyRecyclerViewAdapter;
 import com.example.aplikacja_pogodowa.R;
 
 public class DaysFragment extends Fragment{
 
-    private Bundle bundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,9 +24,8 @@ public class DaysFragment extends Fragment{
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViews);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        bundle = this.getArguments();
-        if (bundle != null) {
-            WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
+        if (((MainActivity) requireActivity()).getWeatherData() != null) {
+            WeatherData weatherData = ((MainActivity) requireActivity()).getWeatherData();
             recyclerView.setAdapter(new MyRecyclerViewAdapter(weatherData, v -> {
             }));
         }

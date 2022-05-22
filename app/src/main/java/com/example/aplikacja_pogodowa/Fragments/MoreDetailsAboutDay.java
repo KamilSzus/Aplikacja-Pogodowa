@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.aplikacja_pogodowa.Download.WeatherData;
 import com.example.aplikacja_pogodowa.Fragments.DayFragment;
+import com.example.aplikacja_pogodowa.MainActivity;
 import com.example.aplikacja_pogodowa.R;
 
 import java.time.Instant;
@@ -34,9 +35,8 @@ public class MoreDetailsAboutDay extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more_details_about_day, container, false);
 
-        bundle= this.getArguments();
-        if (bundle != null) {
-            WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
+        if (((MainActivity) requireActivity()).getWeatherData() != null) {
+            WeatherData weatherData = ((MainActivity) requireActivity()).getWeatherData();
 
             TextView timeZone = view.findViewById(R.id.TimeZoneData);
             timeZone.setText(weatherData.getTimeZone());
