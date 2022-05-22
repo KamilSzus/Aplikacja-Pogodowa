@@ -28,13 +28,6 @@ public class DaysFragment extends Fragment{
         if (bundle != null) {
             WeatherData weatherData = (WeatherData) bundle.getSerializable("WeatherData");
             recyclerView.setAdapter(new MyRecyclerViewAdapter(weatherData, v -> {
-                Fragment fragment = new DayFragment();
-                fragment.setArguments(bundle);
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.mainLayout, fragment)
-                        .setReorderingAllowed(true)
-                        .commit();
             }));
         }
 

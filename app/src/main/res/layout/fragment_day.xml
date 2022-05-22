@@ -119,14 +119,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="UselessParent">
-
-                <Button
-                    android:id="@+id/buttonMoreDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/more_details_about_day" />
-
                 <Button
                     android:id="@+id/refresh"
                     android:layout_width="match_parent"

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="182dp"
+        tools:layout_editor_absoluteY="373dp">
+    </com.google.android.material.tabs.TabLayout>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -14,17 +21,6 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <Button
-                android:id="@+id/AddCity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/City"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints"
-                android:layout_weight="1"
-                />
             <TextView
                 android:id="@+id/City"
                 android:layout_width="wrap_content"
@@ -37,18 +33,11 @@
         </TableRow>
     </TableLayout>
 
-    <FrameLayout
-        android:id="@+id/mainLayout"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tablica"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="500dp" />
 
-    </FrameLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

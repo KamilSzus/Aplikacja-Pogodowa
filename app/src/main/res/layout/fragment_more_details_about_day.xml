@@ -132,14 +132,4 @@
             android:textSize="20sp"
             />
     </TableRow>
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
-    <Button
-        android:id="@+id/back"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/back" />
-</TableRow>
 </TableLayout>

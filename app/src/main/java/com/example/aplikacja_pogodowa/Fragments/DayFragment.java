@@ -27,7 +27,6 @@ import java.text.DecimalFormat;
 
 public class DayFragment extends Fragment implements VolleyCallback {
 
-    private GestureDetector mDetector;
     private View view;
     private WeatherData weatherData;
 
@@ -36,24 +35,11 @@ public class DayFragment extends Fragment implements VolleyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.view = inflater.inflate(R.layout.fragment_day, container, false);
-        Button buttonMoreDetails = view.findViewById(R.id.buttonMoreDetails);
         Button refresh = view.findViewById(R.id.refresh);
         Button units = view.findViewById(R.id.changeUnits);
         units.setOnClickListener(v -> changeUnits());
         refresh.setOnClickListener(v ->createFile());
 
-        buttonMoreDetails.setOnClickListener(v -> {
-            Fragment fragment = new MoreDetailsAboutDay();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("WeatherData" ,weatherData);
-            fragment.setArguments(bundle);
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.mainLayout, fragment)
-                    .setReorderingAllowed(true)
-                    .commit();
-        });
-        gesture(view);
         if (this.getArguments() != null) {
             weatherData = (WeatherData) this.getArguments().getSerializable("WeatherData");
             refreshData(weatherData);
@@ -68,51 +54,6 @@ public class DayFragment extends Fragment implements VolleyCallback {
         units.run();
         refreshData(weatherData);
     }
-
-    private void gesture(View view) {
-        mDetector = new GestureDetector(getActivity(), new SimpleOnGestureListener() {
-            @Override
-            public boolean onDown(MotionEvent event) {
-                return true;
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                boolean result = false;
-                try {
-                    float diffY = e2.getY() - e1.getY();
-                    final int SWIPE_THRESHOLD = 100;
-                    final int SWIPE_VELOCITY_THRESHOLD = 100;
-                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffY > 0) {
-                            Fragment fragment = new DaysFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("WeatherData" ,weatherData);
-                            fragment.setArguments(bundle);
-                            getParentFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.mainLayout, fragment)
-                                    .setReorderingAllowed(true)
-                                    .commit();
-                            result = true;
-                        }
-                    }
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-                return result;
-            }
-        });
-        view.setOnTouchListener(touchListener);
-    }
-
-    View.OnTouchListener touchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            return mDetector.onTouchEvent(event);
-        }
-    };
-
     public void createFile() {
         DownloadFile downloadFile = new DownloadFile(requireActivity().getApplicationContext(), this);
         downloadFile.downloadNewData(((MainActivity) requireActivity()).getTextViewCity());
@@ -131,7 +72,7 @@ public class DayFragment extends Fragment implements VolleyCallback {
         temperatureData.setText(df.format(result.getTemperature()));
 
         TextView weatherText = view.findViewById(R.id.Weather);
-        weatherText.setText(weatherData.getWeather());
+        weatherText.setText(result.getWeather());
 
         TextView latData = view.findViewById(R.id.LatitudeData);
         latData.setText(df.format(result.getLatitude()));

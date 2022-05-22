@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,15 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.VolleyError;
 import com.example.aplikacja_pogodowa.Download.DownloadFile;
 import com.example.aplikacja_pogodowa.Download.DownloadImage;
 import com.example.aplikacja_pogodowa.Download.VolleyCallback;
 import com.example.aplikacja_pogodowa.Download.WeatherData;
-import com.example.aplikacja_pogodowa.Finder.CityFragment;
-import com.example.aplikacja_pogodowa.Fragments.DayFragment;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,15 +34,24 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     private final long oneHour = 3600000;
     private final int INTERNET = 3;
     private TextView city;
+    public Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button addCity = findViewById(R.id.AddCity);
         city = findViewById(R.id.City);
         checkPermission(Manifest.permission.INTERNET, INTERNET);
 
-        addCity.setOnClickListener(v -> replaceFragment(new CityFragment(), null));
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        ViewPager2 viewPager2 = findViewById(R.id.view_pager);
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        viewPager2.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout, viewPager2,
+                (tab, position) -> tab.setText("Tab " + (position + 1))).attach();
+
         DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         String result = readFile();
         if (result != null) {
@@ -111,25 +119,15 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         }
     }
 
-    private void replaceFragment(Fragment fragment, Bundle bundle) {
-        fragment.setArguments(bundle);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.mainLayout, fragment)
-                .setReorderingAllowed(true)
-                .commit();
-    }
-
     @Override
     public void onSuccessResponse(WeatherData result) {
         DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, result);
         downloadImage.start();
     }
 
-    private void startNewFragment(Fragment dayFragment, WeatherData result) {
-        Bundle bundle = new Bundle();
+    private void startNewFragment(WeatherData result) {
+        bundle = new Bundle();
         bundle.putSerializable("WeatherData", result);
-        replaceFragment(dayFragment, bundle);
     }
 
     @Override
@@ -139,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
     @Override
     public void onSuccessResponseImage(WeatherData result) {
-        startNewFragment(new DayFragment(), result);
+        startNewFragment(result);
     }
 
     @Override

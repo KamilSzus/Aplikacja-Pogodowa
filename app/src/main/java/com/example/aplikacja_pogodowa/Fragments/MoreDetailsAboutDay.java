@@ -19,8 +19,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class MoreDetailsAboutDay extends Fragment {
-
-    Button back;
     Bundle bundle;
 
     public MoreDetailsAboutDay() {
@@ -35,16 +33,6 @@ public class MoreDetailsAboutDay extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more_details_about_day, container, false);
-        back = view.findViewById(R.id.back);
-        back.setOnClickListener(v -> {
-            Fragment fragment = new DayFragment();
-            fragment.setArguments(bundle);
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.mainLayout,fragment)
-                    .setReorderingAllowed(true)
-                    .commit();
-        });
 
         bundle= this.getArguments();
         if (bundle != null) {
