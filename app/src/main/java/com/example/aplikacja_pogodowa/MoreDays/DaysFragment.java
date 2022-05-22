@@ -26,8 +26,7 @@ public class DaysFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (((MainActivity) requireActivity()).getWeatherData() != null) {
             WeatherData weatherData = ((MainActivity) requireActivity()).getWeatherData();
-            recyclerView.setAdapter(new MyRecyclerViewAdapter(weatherData, v -> {
-            }));
+            recyclerView.setAdapter(new MyRecyclerViewAdapter(weatherData));
         }
 
         return view;

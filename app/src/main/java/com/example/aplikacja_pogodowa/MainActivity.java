@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     private final long oneHour = 3600000;
     private final int INTERNET = 3;
     private TextView city;
-    public Bundle bundle;
     private WeatherData weatherData;
 
     @Override
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
         DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         String result = readFile();
+
         if (result != null) {
             WeatherData data = downloadFile.setData(result);
             city.setText(data.getCityName());
@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
-        //viewPager2.registerOnPageChangeCallback();
 
         new TabLayoutMediator(tabLayout, viewPager2,
                 (tab, position) -> tab.setText("Tab " + (position + 1))).attach();
@@ -130,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, result);
         downloadImage.start();
     }
+
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     @Override
     public void onSuccessResponseImage(WeatherData result) {
         weatherData = result;
+        //((DayFragment) getSupportFragmentManager().findFragmentById(R.id.dayFragment)).changeUnits();
     }
 
     @Override
