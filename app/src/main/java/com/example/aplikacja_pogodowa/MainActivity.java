@@ -59,8 +59,23 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
 
-        new TabLayoutMediator(tabLayout, viewPager2,
-                (tab, position) -> tab.setText("Tab " + (position + 1))).attach();
+
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            switch (position) {
+                case 1:
+                    tab.setText("Dzisiaj");
+                    break;
+                case 2:
+                    tab.setText("Wiele dni");
+                    break;
+                case 3:
+                    tab.setText("Więcej informacji");
+                    break;
+                default:
+                    tab.setText("Wyszukiwarka");
+                    break;
+            }
+        }).attach();
     }
 
     public void setTextViewCity(String newName) {
@@ -138,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     @Override
     public void onSuccessResponseImage(WeatherData result) {
         weatherData = result;
-        //((DayFragment) getSupportFragmentManager().findFragmentById(R.id.dayFragment)).changeUnits();
     }
 
     @Override

@@ -17,18 +17,17 @@ import com.example.aplikacja_pogodowa.R;
 
 public class DaysFragment extends Fragment{
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_days, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViews);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         if (((MainActivity) requireActivity()).getWeatherData() != null) {
             WeatherData weatherData = ((MainActivity) requireActivity()).getWeatherData();
             recyclerView.setAdapter(new MyRecyclerViewAdapter(weatherData));
         }
-
         return view;
     }
 }

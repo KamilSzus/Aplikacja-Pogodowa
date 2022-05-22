@@ -50,9 +50,11 @@ public class DayFragment extends Fragment implements VolleyCallback {
     }
 
     private void changeUnits() {
-        ChangeUnits units = new ChangeUnits(weatherData);
-        units.run();
-        refreshData(weatherData);
+        if(weatherData!=null) {
+            ChangeUnits units = new ChangeUnits(weatherData);
+            units.run();
+            refreshData(weatherData);
+        }
     }
 
     public void createFile() {
