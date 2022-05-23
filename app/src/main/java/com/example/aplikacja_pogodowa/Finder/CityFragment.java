@@ -1,19 +1,21 @@
 package com.example.aplikacja_pogodowa.Finder;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.aplikacja_pogodowa.Finder.ClickListenerFinder;
-import com.example.aplikacja_pogodowa.Finder.RecyclerViewAdapterFinder;
 import com.example.aplikacja_pogodowa.MainActivity;
 import com.example.aplikacja_pogodowa.R;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CityFragment extends Fragment implements ClickListenerFinder {
 
@@ -53,10 +56,34 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
         }
     }
 
+    private GeoPoint getLocationFromAddress(String strAddress) {
+        Geocoder coder = new Geocoder(requireActivity().getApplicationContext());
+        List<Address> address;
+        GeoPoint p1 = null;
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address.size() == 0) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+            p1 = new GeoPoint(location.getLatitude(),
+                    location.getLongitude());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return p1;
+    }
+
     private void loadNewFragment(String city){
-        updateCityFile();
-        ((MainActivity) requireActivity()).setTextViewCity(city);
-        ((MainActivity) requireActivity()).createFile();
+        if(getLocationFromAddress(city)!=null) {
+            updateCityFile();
+            ((MainActivity) requireActivity()).setTextViewCity(city);
+            ((MainActivity) requireActivity()).createFile();
+        }else {
+            Toast.makeText(requireActivity().getApplicationContext(), "Miasto nie istnieje", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateCityFile() {

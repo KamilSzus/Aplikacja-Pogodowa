@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
     private final long oneHour = 3600000;
     private final int INTERNET = 3;
     private TextView city;
+    private ViewPagerAdapter adapter;
     private WeatherData weatherData;
+    private ViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
