@@ -1,4 +1,4 @@
-package com.example.aplikacja_pogodowa;
+package com.example.aplikacja_pogodowa.MVVM;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

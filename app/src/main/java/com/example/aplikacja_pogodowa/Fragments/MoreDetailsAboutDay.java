@@ -14,9 +14,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.aplikacja_pogodowa.Download.WeatherData;
-import com.example.aplikacja_pogodowa.MainActivity;
 import com.example.aplikacja_pogodowa.R;
-import com.example.aplikacja_pogodowa.ViewModel;
+import com.example.aplikacja_pogodowa.MVVM.ViewModel;
 
 import java.time.Instant;
 import java.time.ZoneId;

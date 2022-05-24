@@ -14,11 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aplikacja_pogodowa.Download.WeatherData;
-import com.example.aplikacja_pogodowa.Fragments.DayFragment;
-import com.example.aplikacja_pogodowa.MainActivity;
-import com.example.aplikacja_pogodowa.MoreDays.MyRecyclerViewAdapter;
 import com.example.aplikacja_pogodowa.R;
-import com.example.aplikacja_pogodowa.ViewModel;
+import com.example.aplikacja_pogodowa.MVVM.ViewModel;
 
 public class DaysFragment extends Fragment{
 

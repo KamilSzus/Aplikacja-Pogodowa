@@ -22,7 +22,7 @@ import com.example.aplikacja_pogodowa.Download.VolleyCallback;
 import com.example.aplikacja_pogodowa.Download.WeatherData;
 import com.example.aplikacja_pogodowa.MainActivity;
 import com.example.aplikacja_pogodowa.R;
-import com.example.aplikacja_pogodowa.ViewModel;
+import com.example.aplikacja_pogodowa.MVVM.ViewModel;
 
 import java.text.DecimalFormat;
 
@@ -42,8 +42,6 @@ public class DayFragment extends Fragment implements VolleyCallback {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         Button refresh = view.findViewById(R.id.refresh);
-        Button units = view.findViewById(R.id.changeUnits);
-        units.setOnClickListener(v ->  ((MainActivity) requireActivity()).changeUnits());
         refresh.setOnClickListener(v -> createFile());
 
         final Observer<WeatherData> weatherDataObserver = weatherData1 -> {

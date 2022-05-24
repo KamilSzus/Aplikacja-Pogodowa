@@ -1,8 +1,8 @@
 package com.example.aplikacja_pogodowa;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.VolleyError;
@@ -23,6 +24,8 @@ import com.example.aplikacja_pogodowa.Download.DownloadImage;
 import com.example.aplikacja_pogodowa.Download.VolleyCallback;
 import com.example.aplikacja_pogodowa.Download.WeatherData;
 import com.example.aplikacja_pogodowa.Fragments.ChangeUnits;
+import com.example.aplikacja_pogodowa.MVVM.ViewModel;
+import com.example.aplikacja_pogodowa.MVVM.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -34,12 +37,11 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity implements VolleyCallback {
 
-    private final long oneHour = 3600000;
     private final int INTERNET = 3;
     private TextView city;
-    private ViewPagerAdapter adapter;
     private WeatherData weatherData;
     private ViewModel model;
+    private String units;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +61,14 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
             DownloadImage downloadImage = new DownloadImage(getApplicationContext(), this, data);
             downloadImage.start();
         }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        units = prefs.getString("Skala_termometryczna","Kelvin");
+
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
 
-        adapter = new ViewPagerAdapter(this);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             switch (position) {
@@ -99,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         try {
             File file = new File(getApplicationContext().getFilesDir(), "Weather.Json");
             if (file.exists()) {
+                long oneHour = 3600000;
                 if (file.lastModified() + oneHour > System.currentTimeMillis()) {
                     FileInputStream fileInputStream = getApplicationContext().openFileInput("Weather.Json");
                     InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
@@ -163,11 +169,14 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         error.printStackTrace();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onSuccessResponseImage(WeatherData result) {
         weatherData = result;
-        model.setWeatherData(result);
+        if(units.equals("Kelvin")){
+            model.setWeatherData(result);
+        }else{
+            changeUnits();
+        }
     }
 
     @Override

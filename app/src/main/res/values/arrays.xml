@@ -9,4 +9,13 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+    <string-array name="Kelvin">
+        <item>Kelvin</item>
+        <item>Stopien Celsjusza</item>
+    </string-array>
+
+    <string-array name="Kelvin_values">
+        <item>Kelvin</item>
+        <item>Stopien Celsjusza</item>
+    </string-array>
 </resources>
