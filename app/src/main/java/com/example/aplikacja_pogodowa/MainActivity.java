@@ -1,6 +1,7 @@
 package com.example.aplikacja_pogodowa;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.VolleyError;
@@ -20,6 +22,7 @@ import com.example.aplikacja_pogodowa.Download.DownloadFile;
 import com.example.aplikacja_pogodowa.Download.DownloadImage;
 import com.example.aplikacja_pogodowa.Download.VolleyCallback;
 import com.example.aplikacja_pogodowa.Download.WeatherData;
+import com.example.aplikacja_pogodowa.Fragments.ChangeUnits;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         setContentView(R.layout.activity_main);
         city = findViewById(R.id.City);
         checkPermission(Manifest.permission.INTERNET, INTERNET);
+        model = new ViewModelProvider(this).get(ViewModel.class);
+
 
         DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         String result = readFile();
@@ -58,10 +63,8 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         TabLayout tabLayout = findViewById(R.id.tabs);
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
-
-
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             switch (position) {
                 case 1:
@@ -113,6 +116,14 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         return null;
     }
 
+    public void changeUnits() {
+        if(weatherData!=null) {
+            ChangeUnits units = new ChangeUnits(weatherData);
+            units.run();
+            model.setWeatherData(weatherData);
+        }
+    }
+
     public void createFile() {
         DownloadFile downloadFile = new DownloadFile(getApplicationContext(), this);
         downloadFile.downloadNewData(city.getText().toString());
@@ -152,9 +163,11 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         error.printStackTrace();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onSuccessResponseImage(WeatherData result) {
         weatherData = result;
+        model.setWeatherData(result);
     }
 
     @Override

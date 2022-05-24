@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.adapter.FragmentViewHolder;
 
 import com.example.aplikacja_pogodowa.Finder.CityFragment;
 import com.example.aplikacja_pogodowa.Fragments.DayFragment;
 import com.example.aplikacja_pogodowa.Fragments.MoreDetailsAboutDay;
 import com.example.aplikacja_pogodowa.MoreDays.DaysFragment;
+
+import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 

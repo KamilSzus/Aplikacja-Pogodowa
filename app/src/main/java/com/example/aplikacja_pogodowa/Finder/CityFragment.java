@@ -9,12 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aplikacja_pogodowa.MainActivity;
 import com.example.aplikacja_pogodowa.R;
+import com.example.aplikacja_pogodowa.ViewModel;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.BufferedReader;
@@ -29,20 +33,24 @@ import java.util.List;
 
 public class CityFragment extends Fragment implements ClickListenerFinder {
 
-    RecyclerViewAdapterFinder adapter;
-    ArrayList<String> cityList = new ArrayList<>();
+    private RecyclerViewAdapterFinder adapter;
+    private final ArrayList<String> cityList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_city, container, false);
+        return inflater.inflate(R.layout.fragment_city, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewsCity);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         readFile();
         adapter = new RecyclerViewAdapterFinder(cityList,this);
         recyclerView.setAdapter(adapter);
-
-        return view;
     }
 
     public void readFile() {

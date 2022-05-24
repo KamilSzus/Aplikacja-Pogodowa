@@ -2,16 +2,17 @@ package com.example.aplikacja_pogodowa.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.NetworkImageView;
@@ -20,41 +21,38 @@ import com.example.aplikacja_pogodowa.Download.DownloadImage;
 import com.example.aplikacja_pogodowa.Download.VolleyCallback;
 import com.example.aplikacja_pogodowa.Download.WeatherData;
 import com.example.aplikacja_pogodowa.MainActivity;
-import com.example.aplikacja_pogodowa.MoreDays.DaysFragment;
 import com.example.aplikacja_pogodowa.R;
+import com.example.aplikacja_pogodowa.ViewModel;
 
 import java.text.DecimalFormat;
 
 public class DayFragment extends Fragment implements VolleyCallback {
 
-    private View view;
     private WeatherData weatherData;
+    private View view;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        this.view = inflater.inflate(R.layout.fragment_day, container, false);
-        Button refresh = view.findViewById(R.id.refresh);
-        Button units = view.findViewById(R.id.changeUnits);
-        units.setOnClickListener(v -> changeUnits());
-        refresh.setOnClickListener(v -> createFile());
-
-        if (((MainActivity) requireActivity()).getWeatherData() != null) {
-            weatherData = ((MainActivity) requireActivity()).getWeatherData();
-            refreshData(weatherData);
-            refreshImage(weatherData);
-        }
-
-        return view;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_day, container, false);
     }
 
-    private void changeUnits() {
-        if(weatherData!=null) {
-            ChangeUnits units = new ChangeUnits(weatherData);
-            units.run();
-            refreshData(weatherData);
-        }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.view = view;
+        Button refresh = view.findViewById(R.id.refresh);
+        Button units = view.findViewById(R.id.changeUnits);
+        units.setOnClickListener(v ->  ((MainActivity) requireActivity()).changeUnits());
+        refresh.setOnClickListener(v -> createFile());
+
+        final Observer<WeatherData> weatherDataObserver = weatherData1 -> {
+            refreshData(weatherData1);
+            refreshImage(weatherData1);
+        };
+
+        ViewModel model = new ViewModelProvider(requireActivity()).get(ViewModel.class);
+        model.getWeatherData().observe(getViewLifecycleOwner(),weatherDataObserver);
     }
 
     public void createFile() {
