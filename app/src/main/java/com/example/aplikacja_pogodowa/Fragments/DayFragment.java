@@ -26,7 +26,7 @@ import com.example.aplikacja_pogodowa.MVVM.ViewModel;
 
 import java.text.DecimalFormat;
 
-public class DayFragment extends Fragment implements VolleyCallback {
+public class DayFragment extends Fragment {
 
     private WeatherData weatherData;
     private View view;
@@ -42,7 +42,7 @@ public class DayFragment extends Fragment implements VolleyCallback {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         Button refresh = view.findViewById(R.id.refresh);
-        refresh.setOnClickListener(v -> createFile());
+        refresh.setOnClickListener(v ->  ((MainActivity) requireActivity()).createFile());
 
         final Observer<WeatherData> weatherDataObserver = weatherData1 -> {
             refreshData(weatherData1);
@@ -51,18 +51,6 @@ public class DayFragment extends Fragment implements VolleyCallback {
 
         ViewModel model = new ViewModelProvider(requireActivity()).get(ViewModel.class);
         model.getWeatherData().observe(getViewLifecycleOwner(),weatherDataObserver);
-    }
-
-    public void createFile() {
-        DownloadFile downloadFile = new DownloadFile(requireActivity().getApplicationContext(), this);
-        downloadFile.downloadNewData(((MainActivity) requireActivity()).getTextViewCity());
-    }
-
-    @Override
-    public void onSuccessResponse(WeatherData result) {
-        refreshData(result);
-        DownloadImage downloadImage = new DownloadImage(requireActivity().getApplicationContext(), this, result);
-        downloadImage.start();
     }
 
     private void refreshData(WeatherData result) {
@@ -81,23 +69,9 @@ public class DayFragment extends Fragment implements VolleyCallback {
         lonData.setText(df.format(result.getLongitude()));
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        error.printStackTrace();
-    }
-
-    @Override
-    public void onSuccessResponseImage(WeatherData bitmap) {
-        refreshImage(bitmap);
-    }
-
     private void refreshImage(WeatherData bitmap) {
         NetworkImageView weatherIcon = view.findViewById(R.id.WeatherIcon);
         weatherIcon.setDefaultImageBitmap(bitmap.getImageList().get(0));
     }
 
-    @Override
-    public void onErrorResponseImage(VolleyError error) {
-        error.printStackTrace();
-    }
 }

@@ -67,7 +67,7 @@ public class DownloadFile {
     private void getResponse() {
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest request = new StringRequest(Request.Method.POST, url, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONObject jsonResponse = new JSONObject(response);
 
