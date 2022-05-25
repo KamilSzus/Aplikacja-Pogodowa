@@ -114,18 +114,6 @@
                     android:text=""
                     android:textSize="20sp" />
             </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:ignore="UselessParent">
-                <Button
-                    android:id="@+id/refresh"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/refresh" />
-            </TableRow>
         </TableLayout>
     </RelativeLayout>
 </RelativeLayout>

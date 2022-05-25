@@ -195,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements VolleyCallback {
         if(item.getItemId()==R.id.settings){
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
+        }else if(item.getItemId()==R.id.Refresh){
+            createFile();
         }
         return super.onOptionsItemSelected(item);
     }

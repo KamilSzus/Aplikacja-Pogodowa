@@ -41,8 +41,6 @@ public class DayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        Button refresh = view.findViewById(R.id.refresh);
-        refresh.setOnClickListener(v ->  ((MainActivity) requireActivity()).createFile());
 
         final Observer<WeatherData> weatherDataObserver = weatherData1 -> {
             refreshData(weatherData1);
