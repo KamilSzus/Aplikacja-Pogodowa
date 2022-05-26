@@ -19,11 +19,20 @@ public class WeatherData implements Serializable {
     private String timeZone;
     private String units;
     private String Weather;
+    private Integer time;
 
     private ArrayList<Double> temperatureList = new ArrayList<>();
     private ArrayList<Integer> dayList = new ArrayList<>();
     private ArrayList<Bitmap> imageList = new ArrayList<>();
     private ArrayList<String> imageIcon = new ArrayList<>();
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
+    }
 
     public String getWeather() {
         return Weather;

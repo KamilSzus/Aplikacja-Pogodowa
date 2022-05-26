@@ -67,6 +67,9 @@ public class MoreDetailsAboutDay extends Fragment {
 
         TextView sunset = view.findViewById(R.id.Sunset);
         sunset.setText(convertTime(weatherData.getSunset().toString(), weatherData.getTimeZone()));
+
+        TextView currentTime = view.findViewById(R.id.time);
+        currentTime.setText(convertTime(weatherData.getTime().toString(), weatherData.getTimeZone()));
     }
 
     private String convertTime(String time, String timeZone) {

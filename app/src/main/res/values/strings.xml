@@ -40,4 +40,5 @@
     <string name="settings">Settings</string>
     <string name="pogoda">Pogoda</string>
     <string name="refreshSettings">Refresh</string>
+    <string name="aktualny_czas">Aktualny czas</string>
 </resources>

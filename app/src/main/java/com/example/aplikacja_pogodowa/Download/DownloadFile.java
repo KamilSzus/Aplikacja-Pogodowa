@@ -101,6 +101,7 @@ public class DownloadFile {
         weatherData.setSunset(object.getInt("sunset"));
         weatherData.setWindStrength(Double.toString(object.getDouble("wind_speed")));
         weatherData.setTemperature(object.getDouble("temp"));
+        weatherData.setTime(jsonResponse.getJSONObject("current").getInt("dt"));
     }
 
     private void readDataFromJsonForDays(JSONObject jsonResponse) throws JSONException {
