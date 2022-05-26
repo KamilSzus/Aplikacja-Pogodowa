@@ -69,6 +69,7 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
         try {
             address = coder.getFromLocationName(strAddress, 5);
             if (address.size() == 0) {
+                Toast.makeText(requireActivity().getApplicationContext(), "Miasto nie istnieje", Toast.LENGTH_SHORT).show();
                 return null;
             }
             Address location = address.get(0);
@@ -77,6 +78,7 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
             p1 = new GeoPoint(location.getLatitude(),
                     location.getLongitude());
         } catch (IOException e) {
+            Toast.makeText(requireActivity().getApplicationContext(), "Brak połączenia internetu", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         return p1;
@@ -87,8 +89,6 @@ public class CityFragment extends Fragment implements ClickListenerFinder {
             updateCityFile();
             ((MainActivity) requireActivity()).setTextViewCity(city);
             ((MainActivity) requireActivity()).createFile();
-        }else {
-            Toast.makeText(requireActivity().getApplicationContext(), "Miasto nie istnieje", Toast.LENGTH_SHORT).show();
         }
     }
 

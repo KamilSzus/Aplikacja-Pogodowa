@@ -22,6 +22,7 @@
             android:textAlignment="center"
             android:hint="@string/podaj_nazwe_miasta"
             android:textSize="20sp"
+            android:maxLength="20"
             android:autofillHints="" />
 
         <ImageButton

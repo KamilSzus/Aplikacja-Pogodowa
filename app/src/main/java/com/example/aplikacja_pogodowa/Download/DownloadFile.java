@@ -51,6 +51,7 @@ public class DownloadFile {
         try {
             address = coder.getFromLocationName(strAddress, 5);
             if (address.size() == 0) {
+                Toast.makeText(context, "Miasto nie istnieje", Toast.LENGTH_LONG).show();
                 return null;
             }
             Address location = address.get(0);
@@ -59,6 +60,7 @@ public class DownloadFile {
             p1 = new GeoPoint(location.getLatitude(),
                     location.getLongitude());
         } catch (IOException e) {
+            Toast.makeText(context, "Brak połączenia z internetem", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return p1;

@@ -12,10 +12,10 @@ import java.util.List;
 
 public class DownloadImage {
 
-    private String url = "https://openweathermap.org/img/wn/";
+    private final String url = "https://openweathermap.org/img/wn/";
     private final Context context;
     private final VolleyCallback callback;
-    private WeatherData weatherData;
+    private final WeatherData weatherData;
 
 
     public DownloadImage(Context context, VolleyCallback callback, WeatherData data) {
