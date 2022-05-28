@@ -81,7 +81,7 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
             deleteFromFavorite = itemView.findViewById(R.id.delete);
             alreadyAdded = itemView.findViewById(R.id.starIcon);
 
-            itemView.setOnClickListener(v -> clickListenerFinder.onClickAlreadyAdded(getBindingAdapterPosition()-1));
+            itemView.setOnClickListener(v -> clickListenerFinder.onClickAlreadyAdded(position(getBindingAdapterPosition()-1)));
 
             if(deleteFromFavorite!=null) {
                 deleteFromFavorite.setOnClickListener(v -> clickListenerFinder.onClickTrash(getBindingAdapterPosition()-1));
@@ -96,6 +96,15 @@ public class RecyclerViewAdapterFinder extends RecyclerView.Adapter<RecyclerView
                 apply.setOnClickListener(v -> clickListenerFinder.onClickApply(0,findCity.getText().toString()));
             }
 
+        }
+
+        private int position(int expected){
+            if(expected==-1){
+                return 0;
+            }
+            else{
+                return expected;
+            }
         }
     }
 }
